@@ -30,7 +30,7 @@ namespace IfmoSchedule.Repositories
 
         public IEnumerable<LessonModel> GetAllLesson()
         {
-            return null;
+            return Data;
         }
 
         //TODO: weekType - bool?
