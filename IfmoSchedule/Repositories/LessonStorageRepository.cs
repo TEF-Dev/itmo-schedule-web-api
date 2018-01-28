@@ -3,28 +3,29 @@ using IfmoSchedule.Models;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Linq;
+
 
 namespace IfmoSchedule.Repositories
 {
     public class LessonStorageRepository
     {
-        private static List<LessonModel> Data;
-        private static string constructor = "http://mountain.ifmo.ru/api.ifmo.ru/public/v1/schedule_lesson_group/";
+        private List<LessonModel> Data;
+        private static string baseUrl = "http://mountain.ifmo.ru/api.ifmo.ru/public/v1/schedule_lesson_group/";
             
-        private static void UpdateFromApi(string groupName)
+        private void UpdateFromApi(string groupName)
         {
-            string address = $"{constructor}{groupName}";
-            HttpClient query = new HttpClient();
-            var result = query.GetAsync(address).Result.Content.ReadAsStringAsync().Result;
+            string address = $"{baseUrl}{groupName}";
+            HttpClient client = new HttpClient();
+            var result = client.GetAsync(address).Result.Content.ReadAsStringAsync().Result;
             var lessonsObject = JObject.Parse(result);
             var lessons = lessonsObject["schedule"];
             Data = lessons.ToObject<List<LessonModel>>();
-
         }
 
         public LessonStorageRepository()
         {
-
+            UpdateFromApi("M3205");
         }
 
         public IEnumerable<LessonModel> GetAllLesson()
@@ -35,7 +36,7 @@ namespace IfmoSchedule.Repositories
         //TODO: weekType - bool?
         public IEnumerable<LessonModel> GetLesson(int day, int weekType)
         {
-            return null;
+            return Data.Where(i => (i.DayOfWeek == day) && (i.WeekType == weekType));
         }
     }
 }
