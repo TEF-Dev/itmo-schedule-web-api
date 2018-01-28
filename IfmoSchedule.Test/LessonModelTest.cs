@@ -11,7 +11,7 @@ namespace IfmoSchedule.Test
         [TestMethod]
         public void ModelPropertyTest()
         {
-            var repository = new LessonStorageRepository();
+            var repository = new LessonStorageRepository("M3205");
             var list = repository.GetAllLesson();
             Assert.IsNotNull(list);
             var data = list.First();

@@ -11,7 +11,7 @@ namespace IfmoSchedule.Test
         public void MessageNotNull()
         {
             var generator = new ScheduleGenerator();
-            var msg = generator.GenerateMessage(1, 0);
+            var msg = generator.GenerateMessage("M3205");
 
             Assert.IsTrue(msg != string.Empty);
         }

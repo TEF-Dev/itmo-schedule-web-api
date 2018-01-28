@@ -10,7 +10,7 @@ namespace IfmoSchedule.Repositories
 {
     public class LessonStorageRepository
     {
-        private List<LessonModel> Data;
+        private List<LessonModel> _data;
         private static string baseUrl = "http://mountain.ifmo.ru/api.ifmo.ru/public/v1/schedule_lesson_group/";
             
         private void UpdateFromApi(string groupName)
@@ -20,23 +20,24 @@ namespace IfmoSchedule.Repositories
             var result = client.GetAsync(address).Result.Content.ReadAsStringAsync().Result;
             var lessonsObject = JObject.Parse(result);
             var lessons = lessonsObject["schedule"];
-            Data = lessons.ToObject<List<LessonModel>>();
+            _data = lessons.ToObject<List<LessonModel>>();
         }
 
-        public LessonStorageRepository()
+
+        public LessonStorageRepository(string groupName)
         {
-            UpdateFromApi("M3205");
+            UpdateFromApi(groupName);
         }
 
         public IEnumerable<LessonModel> GetAllLesson()
         {
-            return Data;
+            return _data;
         }
 
-        //TODO: weekType - bool?
         public IEnumerable<LessonModel> GetLesson(int day, Week weekType)
         {
-            return Data.Where(i => ((i.DayOfWeek == day) && (i.WeekType == (int)weekType)) || ((i.DayOfWeek == day) && (i.WeekType == 0)));
+            return _data.Where(i => ((i.DayOfWeek == day) && (i.WeekType == (int)weekType)) || ((i.DayOfWeek == day) && (i.WeekType == 0)))
+                       .Where(i => i.Title != "Физическая культура (элективная дисциплина)");
         }
     }
 }

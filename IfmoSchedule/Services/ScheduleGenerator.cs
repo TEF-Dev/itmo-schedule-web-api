@@ -7,40 +7,45 @@ namespace IfmoSchedule.Services
 {
     public class ScheduleGenerator
     {
+
+        public string GenerateMessage(string groupName)
+        {
+            var msg = GetHeader();
+            var date = GenerateDate();
+            msg += GetScheduleData(date.Item1, date.Item2, groupName);
+            return msg;
+        }
+
         private string GetHeader()
         {
             return "Расписание на завтра!\n";
         }
 
-        public string GenerateMessage(int day, int weekType)
-        {
-            var msg = GetHeader();
-            msg += GetScheduleData(day, weekType);
-            return msg;
-        }
-
-        private static Week getWeekType(DateTime current)
+        private static Week GetWeekType(DateTime current)
         {
             var todayWeek = (CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(current, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday) - 5) % 2;
-            if (todayWeek == 0)
-            {
-                return Week.even;
-            }
-
-            return Week.odd;
+            return todayWeek == 0 ? Week.Even : Week.Odd;
         }
 
-        private string GetScheduleData(int day, int weekType)
+        private (int, Week) GenerateDate()
         {
-            //TODO: Convert data from repository to string
-            LessonStorageRepository my = new LessonStorageRepository();
-            DateTime current = DateTime.UtcNow;
-            string answer = "";
-            Week todayWeek = getWeekType(current);
-            foreach (var item in my.GetLesson((int)current.DayOfWeek, todayWeek))
+
+            var current = DateTime.UtcNow;
+            var todayWeek = GetWeekType(current);
+            return ((int)current.DayOfWeek, todayWeek);
+        }
+
+        private string GetScheduleData(int day, Week weekType, string groupName)
+        {
+            var answer = "";
+            LessonStorageRepository my = new LessonStorageRepository(groupName);
+
+            foreach (var item in my.GetLesson(day, weekType))
             {
-                answer += $"{item.TimeBegin} -> {item.Title} ({item.Status}, ауд. {item.Room} {item.Place})\n";
+                string room = item.Title == "Иностранный язык" ? "" : $"ауд. {item.Room} ";
+                answer += $"{item.TimeBegin} -> {item.Title} ({item.Status}, {room}{item.Place})\n";
             }
+
             return answer;
         }
     }
