@@ -11,19 +11,24 @@ namespace IfmoSchedule.Controllers
         [HttpGet]
         public string Get()
         {
-            var generator = new ScheduleGenerator();
-            //TODO: Get current data
-            var msg = generator.GenerateMessage(-1, -1);
-
+            var msg = ScheduleGenerator.GenerateMessage("M3205");
+            VKSender.Send(msg);
             return msg;
         }
 
-        //TODO: Request with params
-        // GET: api/Schedule/5
-        //[HttpGet("{id}", Name = "Get")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        [HttpGet("{group}")]
+        public string Get(string group)
+        {
+            var msg = ScheduleGenerator.GenerateMessage(group);
+            return msg;
+        }
+
+        [HttpGet("{group}/{week:int}/{day}")]
+        public string Get(string group, int week, int day)
+        {
+            if (week > 2 || week < 0) { return "error with week"; }
+            var msg = ScheduleGenerator.GenerateMessage(group, week, day);
+            return msg;
+        }
     }
 }
