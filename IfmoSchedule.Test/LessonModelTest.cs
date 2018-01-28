@@ -12,9 +12,10 @@ namespace IfmoSchedule.Test
         public void ModelPropertyTest()
         {
             var repository = new LessonStorageRepository();
-            var data = repository.GetAllLesson().FirstOrDefault();
+            var list = repository.GetAllLesson();
+            Assert.IsNotNull(list);
 
-            Assert.IsNotNull(data);
+            var data = list.First();
 
             int? day = data.DayOfWeek;
             Assert.IsNotNull(day);
