@@ -12,6 +12,7 @@ namespace IfmoSchedule.Controllers
         public string Get()
         {
             var msg = ScheduleGenerator.GenerateMessage("M3205");
+            VKSender.Send(msg);
             return msg;
         }
 
@@ -22,11 +23,11 @@ namespace IfmoSchedule.Controllers
             return msg;
         }
 
-        [HttpGet("{group}/{week}/{day}")]
+        [HttpGet("{group}/{week:int}/{day}")]
         public string Get(string group, int week, int day)
         {
-            //TODO: swap day and week
-            var msg = ScheduleGenerator.GenerateMessage(group, day, week);
+            if (week > 2 || week < 0) { return "error with week"; }
+            var msg = ScheduleGenerator.GenerateMessage(group, week, day);
             return msg;
         }
     }

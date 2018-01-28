@@ -11,15 +11,15 @@ namespace IfmoSchedule.Services
         {
             var msg = GetHeader();
             var date = GenerateNextDay();
-            msg += GetScheduleData(date.Day, date.Week, groupName);
+            msg += GetScheduleData(groupName, date.Week, date.Day);
             return msg;
         }
 
-        public static string GenerateMessage(string groupName, int day, int week)
+        public static string GenerateMessage(string groupName, int week, int day)
         {
-            var msg = GetHeader();
-            //TODO: check week
-            msg += GetScheduleData(day, (Week) week, groupName);
+            // var msg = GetHeader();
+            var msg = "";
+            msg += GetScheduleData(groupName, (Week)week, day);
             return msg;
         }
 
@@ -41,17 +41,17 @@ namespace IfmoSchedule.Services
         {
             var current = DateTime.UtcNow;
             var todayWeek = GetWeekType(current);
-            return ((int) current.DayOfWeek - 1, todayWeek);
+            return ((int)current.DayOfWeek - 1, todayWeek);
         }
 
         private static (int Day, Week Week) GenerateNextDay()
         {
             var current = DateTime.UtcNow.AddDays(1);
             var todayWeek = GetWeekType(current);
-            return ((int) current.DayOfWeek - 1, todayWeek);
+            return ((int)current.DayOfWeek - 1, todayWeek);
         }
 
-        private static string GetScheduleData(int day, Week weekType, string groupName)
+        private static string GetScheduleData(string groupName, Week weekType, int day)
         {
             var answer = "";
             var my = new LessonStorageRepository(groupName);
@@ -60,7 +60,7 @@ namespace IfmoSchedule.Services
             foreach (var item in lessonList)
             {
                 var room = item.Title == "Иностранный язык" ? "" : $"ауд. {item.Room} ";
-                answer += $"{item.TimeBegin} -> {item.Title} ({item.Status}, {room}{item.Place})\n";
+                answer += $"{item.TimeBegin} -> {item.Title} ({item.Status}), {room}{item.Place}\n";
             }
 
             return answer;
