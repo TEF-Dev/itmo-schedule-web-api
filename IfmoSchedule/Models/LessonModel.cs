@@ -14,7 +14,7 @@ namespace IfmoSchedule.Models
 
         [JsonProperty("room")] public string Room { get; set; }
 
-        //TODO: Custom setter
+        //TODO: Custom getter
         [JsonProperty("place")] public string Place { get; set; }
 
         [JsonProperty("title")] public string Title { get; set; }

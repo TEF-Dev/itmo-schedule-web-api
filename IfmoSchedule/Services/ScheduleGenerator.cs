@@ -19,26 +19,32 @@ namespace IfmoSchedule.Services
             return msg;
         }
 
+        //TODO: Naming GetWeekType
         private static Week getWeekType(DateTime current)
         {
             var todayWeek = (CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(current, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday) - 5) % 2;
+            //TODO: use ternaty operator ( bool ? val1 : val2 )
             if (todayWeek == 0)
             {
-                return Week.even;
+                return Week.Even;
             }
 
-            return Week.odd;
+            return Week.Odd;
         }
 
+        //TODO: Create GenerateMessage()
+        //TODO: Move getting day/week to GenerateMessage()
         private string GetScheduleData(int day, int weekType)
         {
-            //TODO: Convert data from repository to string
+            //TODO: var, var, var...
             LessonStorageRepository my = new LessonStorageRepository();
             DateTime current = DateTime.UtcNow;
             string answer = "";
             Week todayWeek = getWeekType(current);
+            //TODO: Use linq aggregation
             foreach (var item in my.GetLesson((int)current.DayOfWeek, todayWeek))
             {
+                //TODO: null property
                 answer += $"{item.TimeBegin} -> {item.Title} ({item.Status}, ауд. {item.Room} {item.Place})\n";
             }
             return answer;

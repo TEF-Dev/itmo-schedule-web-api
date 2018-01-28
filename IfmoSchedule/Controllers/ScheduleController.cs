@@ -13,7 +13,7 @@ namespace IfmoSchedule.Controllers
         public string Get()
         {
             var generator = new ScheduleGenerator();
-            //TODO: Get current data
+            //TODO: Use GenerateMessage without params
             var msg = generator.GenerateMessage(-1, -1);
 
             return msg;

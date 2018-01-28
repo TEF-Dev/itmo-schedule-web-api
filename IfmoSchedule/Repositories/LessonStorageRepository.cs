@@ -10,6 +10,7 @@ namespace IfmoSchedule.Repositories
 {
     public class LessonStorageRepository
     {
+        //TODO: Naming: _data
         private List<LessonModel> Data;
         private static string baseUrl = "http://mountain.ifmo.ru/api.ifmo.ru/public/v1/schedule_lesson_group/";
             
@@ -23,6 +24,7 @@ namespace IfmoSchedule.Repositories
             Data = lessons.ToObject<List<LessonModel>>();
         }
 
+        //TODO: LessinStoregeRepositoty(string groupName)
         public LessonStorageRepository()
         {
             UpdateFromApi("M3205");
