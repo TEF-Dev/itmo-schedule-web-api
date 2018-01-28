@@ -1,7 +1,6 @@
 ﻿using IfmoSchedule.Services;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace IfmoSchedule.Controllers
 {
     [Produces("application/json")]
@@ -12,18 +11,23 @@ namespace IfmoSchedule.Controllers
         [HttpGet]
         public string Get()
         {
-            var generator = new ScheduleGenerator();
-            //TODO: Use GenerateMessage without params
-            var msg = generator.GenerateMessage("M3205");
+            var msg = ScheduleGenerator.GenerateMessage("M3205");
             return msg;
         }
 
-        //TODO: Request with params
-        // GET: api/Schedule/5
-        //[HttpGet("{id}", Name = "Get")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        [HttpGet("{group}")]
+        public string Get(string group)
+        {
+            var msg = ScheduleGenerator.GenerateMessage(group);
+            return msg;
+        }
+
+        [HttpGet("{group}/{week}/{day}")]
+        public string Get(string group, int week, int day)
+        {
+            //TODO: swap day and week
+            var msg = ScheduleGenerator.GenerateMessage(group, day, week);
+            return msg;
+        }
     }
 }

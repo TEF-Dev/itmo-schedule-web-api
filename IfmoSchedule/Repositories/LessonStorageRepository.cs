@@ -1,32 +1,31 @@
 ﻿using System.Collections.Generic;
-using IfmoSchedule.Models;
-using System.Net.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Linq;
-
+using System.Net.Http;
+using IfmoSchedule.Models;
+using Newtonsoft.Json.Linq;
 
 namespace IfmoSchedule.Repositories
 {
     public class LessonStorageRepository
     {
+        private static readonly string baseUrl = "http://mountain.ifmo.ru/api.ifmo.ru/public/v1/schedule_lesson_group/";
         private List<LessonModel> _data;
-        private static string baseUrl = "http://mountain.ifmo.ru/api.ifmo.ru/public/v1/schedule_lesson_group/";
-            
-        private void UpdateFromApi(string groupName)
-        {
-            string address = $"{baseUrl}{groupName}";
-            HttpClient client = new HttpClient();
-            var result = client.GetAsync(address).Result.Content.ReadAsStringAsync().Result;
-            var lessonsObject = JObject.Parse(result);
-            var lessons = lessonsObject["schedule"];
-            _data = lessons.ToObject<List<LessonModel>>();
-        }
 
 
         public LessonStorageRepository(string groupName)
         {
             UpdateFromApi(groupName);
+        }
+
+        private void UpdateFromApi(string groupName)
+        {
+            var address = $"{baseUrl}{groupName}";
+            var client = new HttpClient();
+
+            var result = client.GetAsync(address).Result.Content.ReadAsStringAsync().Result;
+            var lessonsObject = JObject.Parse(result);
+            var lessons = lessonsObject["schedule"];
+            _data = lessons.ToObject<List<LessonModel>>();
         }
 
         public IEnumerable<LessonModel> GetAllLesson()
@@ -36,8 +35,11 @@ namespace IfmoSchedule.Repositories
 
         public IEnumerable<LessonModel> GetLesson(int day, Week weekType)
         {
-            return _data.Where(i => ((i.DayOfWeek == day) && (i.WeekType == (int)weekType)) || ((i.DayOfWeek == day) && (i.WeekType == 0)))
-                       .Where(i => i.Title != "Физическая культура (элективная дисциплина)");
+            return _data
+                .Where(i =>
+                    i.DayOfWeek == day && i.WeekType == (int) weekType
+                    || i.DayOfWeek == day && i.WeekType == 0)
+                .Where(i => i.Title != "Физическая культура (элективная дисциплина)");
         }
     }
 }
