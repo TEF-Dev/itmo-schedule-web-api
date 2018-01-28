@@ -1,6 +1,7 @@
 ﻿using System;
 using IfmoSchedule.Repositories;
 using System.Globalization;
+using IfmoSchedule.Models;
 
 namespace IfmoSchedule.Services
 {
@@ -18,13 +19,15 @@ namespace IfmoSchedule.Services
             return msg;
         }
 
-        private static int getWeekType(DateTime current)
+        private static Week getWeekType(DateTime current)
         {
-            if (((CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(current, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)) - 5) % 2 == 0)
+            var todayWeek = (CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(current, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday) - 5) % 2;
+            if (todayWeek == 0)
             {
-                return 1;
+                return Week.even;
             }
-            return 2;
+
+            return Week.odd;
         }
 
         private string GetScheduleData(int day, int weekType)
@@ -33,7 +36,15 @@ namespace IfmoSchedule.Services
             LessonStorageRepository my = new LessonStorageRepository();
             DateTime current = DateTime.UtcNow;
             string answer = "";
-            foreach (var item in my.GetLesson((int)current.DayOfWeek, getWeekType(current)))
+            Week todayWeek = getWeekType(current);
+            int todayWeekAsNum;
+            if (todayWeek == Week.even) {
+                todayWeekAsNum = 1;
+            } else
+            {
+                todayWeekAsNum = 2;
+            }
+            foreach (var item in my.GetLesson((int)current.DayOfWeek, todayWeekAsNum))
             {
                 answer += $"{item.TimeBegin} -> {item.Title} ({item.Status}, ауд. {item.Room} {item.Place})\n";
             }

@@ -36,7 +36,7 @@ namespace IfmoSchedule.Repositories
         //TODO: weekType - bool?
         public IEnumerable<LessonModel> GetLesson(int day, int weekType)
         {
-            return Data.Where(i => (i.DayOfWeek == day) && (i.WeekType == weekType));
+            return Data.Where(i => ((i.DayOfWeek == day) && (i.WeekType == weekType)) || ((i.DayOfWeek == day) && (i.WeekType == 0)));
         }
     }
 }
