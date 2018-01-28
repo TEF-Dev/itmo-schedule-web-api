@@ -7,46 +7,45 @@ namespace IfmoSchedule.Services
 {
     public class ScheduleGenerator
     {
+
+        public string GenerateMessage(string groupName)
+        {
+            var msg = GetHeader();
+            var date = GenerateDate();
+            msg += GetScheduleData(date.Item1, date.Item2, groupName);
+            return msg;
+        }
+
         private string GetHeader()
         {
             return "Расписание на завтра!\n";
         }
 
-        public string GenerateMessage(int day, int weekType)
-        {
-            var msg = GetHeader();
-            msg += GetScheduleData(day, weekType);
-            return msg;
-        }
-
-        //TODO: Naming GetWeekType
-        private static Week getWeekType(DateTime current)
+        private static Week GetWeekType(DateTime current)
         {
             var todayWeek = (CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(current, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday) - 5) % 2;
-            //TODO: use ternaty operator ( bool ? val1 : val2 )
-            if (todayWeek == 0)
-            {
-                return Week.Even;
-            }
-
-            return Week.Odd;
+            return todayWeek == 0 ? Week.Even : Week.Odd;
         }
 
-        //TODO: Create GenerateMessage()
-        //TODO: Move getting day/week to GenerateMessage()
-        private string GetScheduleData(int day, int weekType)
+        private (int, Week) GenerateDate()
         {
-            //TODO: var, var, var...
-            LessonStorageRepository my = new LessonStorageRepository();
-            DateTime current = DateTime.UtcNow;
-            string answer = "";
-            Week todayWeek = getWeekType(current);
-            //TODO: Use linq aggregation
-            foreach (var item in my.GetLesson((int)current.DayOfWeek, todayWeek))
+
+            var current = DateTime.UtcNow;
+            var todayWeek = GetWeekType(current);
+            return ((int)current.DayOfWeek, todayWeek);
+        }
+
+        private string GetScheduleData(int day, Week weekType, string groupName)
+        {
+            var answer = "";
+            LessonStorageRepository my = new LessonStorageRepository(groupName);
+
+            foreach (var item in my.GetLesson(day, weekType))
             {
-                //TODO: null property
-                answer += $"{item.TimeBegin} -> {item.Title} ({item.Status}, ауд. {item.Room} {item.Place})\n";
+                string room = item.Title == "Иностранный язык" ? "" : $"ауд. {item.Room} ";
+                answer += $"{item.TimeBegin} -> {item.Title} ({item.Status}, {room}{item.Place})\n";
             }
+
             return answer;
         }
     }

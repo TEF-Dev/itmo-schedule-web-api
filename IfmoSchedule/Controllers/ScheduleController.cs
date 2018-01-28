@@ -14,8 +14,7 @@ namespace IfmoSchedule.Controllers
         {
             var generator = new ScheduleGenerator();
             //TODO: Use GenerateMessage without params
-            var msg = generator.GenerateMessage(-1, -1);
-
+            var msg = generator.GenerateMessage("M3205");
             return msg;
         }
 
