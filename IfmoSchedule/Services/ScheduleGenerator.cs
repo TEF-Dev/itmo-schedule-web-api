@@ -20,7 +20,7 @@ namespace IfmoSchedule.Services
 
         private static int getWeekType(DateTime current)
         {
-            if ((CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(current, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)) - 5 % 2 == 0)
+            if (((CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(current, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)) - 5) % 2 == 0)
             {
                 return 1;
             }

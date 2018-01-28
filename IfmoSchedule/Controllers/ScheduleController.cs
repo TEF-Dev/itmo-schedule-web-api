@@ -1,6 +1,7 @@
 ﻿using IfmoSchedule.Services;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace IfmoSchedule.Controllers
 {
     [Produces("application/json")]
