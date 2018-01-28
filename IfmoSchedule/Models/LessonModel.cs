@@ -4,6 +4,9 @@ namespace IfmoSchedule.Models
 {
     public class LessonModel
     {
+        private string _place;
+
+
         [JsonProperty("data_day")] public int? DayOfWeek { get; set; }
 
         [JsonProperty("status")] public string Status { get; set; }
@@ -15,7 +18,19 @@ namespace IfmoSchedule.Models
         [JsonProperty("room")] public string Room { get; set; }
 
         //TODO: Custom getter
-        [JsonProperty("place")] public string Place { get; set; }
+        [JsonProperty("place")]
+        public string Place
+        {
+            get => _place;
+            set
+            {
+                var val = value.Split(",")[0];
+                if (val == "ул.Ломоносова") val = "Ломоносова";
+                if (val == "Кронверкский пр.") val = "Кронверкский";
+
+                _place = val;
+            }
+        }
 
         [JsonProperty("title")] public string Title { get; set; }
 
@@ -24,5 +39,21 @@ namespace IfmoSchedule.Models
         [JsonProperty("start_time")] public string TimeBegin { get; set; }
 
         [JsonProperty("end_time")] public string TimeEnd { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as LessonModel);
+        }
+
+        public bool Equals(LessonModel lm)
+        {
+            var isSame = true;
+            isSame = isSame && (Title == lm.Title);
+            isSame = isSame && (TimeBegin == lm.TimeBegin);
+            isSame = isSame && (WeekType == lm.WeekType);
+            isSame = isSame && (DayOfWeek == lm.DayOfWeek);
+
+            return isSame;
+        }
     }
 }

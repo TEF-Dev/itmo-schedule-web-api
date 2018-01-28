@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using IfmoSchedule.Models;
 using IfmoSchedule.Repositories;
@@ -54,7 +55,7 @@ namespace IfmoSchedule.Services
         private static string GetScheduleData(string groupName, Week weekType, int day)
         {
             var answer = "";
-            var my = new LessonStorageRepository(groupName);
+            var my = new ServerStorageRepository(groupName);
             var lessonList = my.GetLesson(day, weekType);
 
             foreach (var item in lessonList)
@@ -64,6 +65,18 @@ namespace IfmoSchedule.Services
             }
 
             return answer;
+        }
+
+        public static bool CompareData(List<LessonModel> local, List<LessonModel> serverResponse)
+        {
+            if (local.Count != serverResponse.Count) return false;
+            var isSame = true;
+            for (var i = 0; i < local.Count; i++)
+            {
+                isSame = isSame && local[i].Equals(serverResponse[i]);
+            }
+
+            return isSame;
         }
     }
 }

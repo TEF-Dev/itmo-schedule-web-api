@@ -11,7 +11,7 @@ namespace IfmoSchedule.Test
         [TestMethod]
         public void LessonList_NotNull()
         {
-            var repo = new LessonStorageRepository("M3205");
+            var repo = new ServerStorageRepository("M3205");
             var lessons = repo.GetAllLesson();
             Assert.IsNotNull(lessons);
         }
@@ -19,7 +19,7 @@ namespace IfmoSchedule.Test
         [TestMethod]
         public void LessonList_NotEmpty()
         {
-            var repo = new LessonStorageRepository("M3205");
+            var repo = new ServerStorageRepository("M3205");
             var lessons = repo.GetAllLesson();
             Assert.IsTrue(lessons.Any());
         }
@@ -27,7 +27,7 @@ namespace IfmoSchedule.Test
         [TestMethod]
         public void DayLessonList_NotEmpty()
         {
-            var repo = new LessonStorageRepository("M3205");
+            var repo = new ServerStorageRepository("M3205");
             var lessons = repo.GetLesson(1, 0);
             Assert.IsTrue(lessons.Any());
         }
@@ -37,7 +37,7 @@ namespace IfmoSchedule.Test
         [DataTestMethod]
         public void MondayLessonList(int day, int weekType, int count)
         {
-            var repo = new LessonStorageRepository("M3205");
+            var repo = new ServerStorageRepository("M3205");
             var lessons = repo.GetLesson(day, (Week)weekType);
             Assert.AreEqual(lessons.Count(), count);
         }

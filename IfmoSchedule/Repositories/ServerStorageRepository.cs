@@ -6,13 +6,13 @@ using Newtonsoft.Json.Linq;
 
 namespace IfmoSchedule.Repositories
 {
-    public class LessonStorageRepository
+    public class ServerStorageRepository
     {
         private static readonly string baseUrl = "http://mountain.ifmo.ru/api.ifmo.ru/public/v1/schedule_lesson_group/";
         private List<LessonModel> _data;
 
 
-        public LessonStorageRepository(string groupName)
+        public ServerStorageRepository(string groupName)
         {
             UpdateFromApi(groupName);
         }
