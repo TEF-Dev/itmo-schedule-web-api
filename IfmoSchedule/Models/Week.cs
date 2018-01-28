@@ -3,8 +3,8 @@ namespace IfmoSchedule.Models
 {
     public enum Week
     {
-        even, //чет 
-        odd, //нечет 
-        all
+        even = 1, //чет 
+        odd = 2, //нечет 
+        all = 0
     }
 }

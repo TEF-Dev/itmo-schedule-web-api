@@ -37,14 +37,7 @@ namespace IfmoSchedule.Services
             DateTime current = DateTime.UtcNow;
             string answer = "";
             Week todayWeek = getWeekType(current);
-            int todayWeekAsNum;
-            if (todayWeek == Week.even) {
-                todayWeekAsNum = 1;
-            } else
-            {
-                todayWeekAsNum = 2;
-            }
-            foreach (var item in my.GetLesson((int)current.DayOfWeek, todayWeekAsNum))
+            foreach (var item in my.GetLesson((int)current.DayOfWeek, todayWeek))
             {
                 answer += $"{item.TimeBegin} -> {item.Title} ({item.Status}, ауд. {item.Room} {item.Place})\n";
             }
