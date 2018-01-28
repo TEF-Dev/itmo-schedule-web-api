@@ -1,4 +1,5 @@
 using System.Linq;
+using IfmoSchedule.Models;
 using IfmoSchedule.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -31,13 +32,13 @@ namespace IfmoSchedule.Test
             Assert.IsTrue(lessons.Any());
         }
 
-        [DataRow(0, 1, 4)]
-        [DataRow(0, 2, 3)]
+        [DataRow(1, 1, 4)]
+        [DataRow(1, 2, 3)]
         [DataTestMethod]
         public void MondayLessonList(int day, int weekType, int count)
         {
             var repo = new LessonStorageRepository();
-            var lessons = repo.GetLesson(day, weekType);
+            var lessons = repo.GetLesson(day, (Week)weekType);
             Assert.AreEqual(lessons.Count(), count);
         }
     }

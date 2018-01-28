@@ -4,35 +4,25 @@ namespace IfmoSchedule.Models
 {
     public class LessonModel
     {
-        [JsonProperty("data_day")]
-        public int? DayOfWeek { get; }
+        [JsonProperty("data_day")] public int? DayOfWeek { get; set; }
 
-        [JsonProperty("status")]
-        public string Status { get; }
+        [JsonProperty("status")] public string Status { get; set; }
 
-        [JsonProperty("data_week")]
-        public int? WeekType { get; }
+        [JsonProperty("data_week")] public int? WeekType { get; set; }
 
-        [JsonProperty("subj_time")]
-        public string FullTime { get; }
+        [JsonProperty("subj_time")] public string FullTime { get; set; }
 
-        [JsonProperty("room")]
-        public string Room { get; }
+        [JsonProperty("room")] public string Room { get; set; }
 
         //TODO: Custom setter
-        [JsonProperty("place")]
-        public string Place { get; }
+        [JsonProperty("place")] public string Place { get; set; }
 
-        [JsonProperty("title")]
-        public string Title { get; }
+        [JsonProperty("title")] public string Title { get; set; }
 
-        [JsonProperty("person")]
-        public string Teacher { get; }
+        [JsonProperty("person")] public string Teacher { get; set; }
 
-        [JsonProperty("start_time")]
-        public string TimeBegin { get; }
+        [JsonProperty("start_time")] public string TimeBegin { get; set; }
 
-        [JsonProperty("end_time")]
-        public string TimeEnd { get; }
+        [JsonProperty("end_time")] public string TimeEnd { get; set; }
     }
 }
