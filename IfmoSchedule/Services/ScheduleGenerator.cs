@@ -10,8 +10,8 @@ namespace IfmoSchedule.Services
     {
         public static string GenerateMessage(string groupName)
         {
-            var msg = GetHeader();
             var date = GenerateNextDay();
+            var msg = GetHeader(date.Week, date.Day);
             msg += GetScheduleData(groupName, date.Week, date.Day);
             return msg;
         }
@@ -24,9 +24,25 @@ namespace IfmoSchedule.Services
             return msg;
         }
 
-        private static string GetHeader()
+        private static string GetStringDay(int day) {
+            if (day == 0) return "понедельник";
+            if (day == 1) return "вторник";
+            if (day == 2) return "среда";
+            if (day == 3) return "четверг";
+            if (day == 4) return "пятница";
+            if (day == 5) return "суббота";
+            if (day == 6) return "воскресенье";
+            return null;
+        }
+
+        private static string GetHeader(Week targetWeek, int targetDay)
         {
-            return "Расписание на завтра!\n";
+            string greeting = "🔑 Расписание на завтра!\n 👀 Нас ждёт ";
+            greeting += GetStringDay(targetDay);
+            greeting += ", ";
+            greeting += targetWeek != Week.Odd ? "чётная" : "нечётная";
+            greeting += " неделя \n";
+            return greeting;
         }
 
         private static Week GetWeekType(DateTime current)
@@ -61,9 +77,11 @@ namespace IfmoSchedule.Services
             foreach (var item in lessonList)
             {
                 var room = item.Title == "Иностранный язык" ? "" : $"ауд. {item.Room} ";
-                answer += $"{item.TimeBegin} -> {item.Title} ({item.Status}), {room}{item.Place}\n";
+                answer += $"📌 {item.TimeBegin} -> {item.Title} ({item.Status}), {room}{item.Place}\n";
             }
-
+            if (answer == "") {
+                answer = "🔮 Пар не будет, ура!";
+            }
             return answer;
         }
 

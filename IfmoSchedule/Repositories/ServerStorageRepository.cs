@@ -39,7 +39,7 @@ namespace IfmoSchedule.Repositories
                 .Where(i =>
                     i.DayOfWeek == day && i.WeekType == (int) weekType
                     || i.DayOfWeek == day && i.WeekType == 0)
-                .Where(i => i.Title != "Физическая культура (элективная дисциплина)");
+                .Where(i => i.Title != "Физическая культура (элективная дисциплина)").Where(i => i.Title != "Учебная практика, по получению первичных профессиональных умений и навыков");
         }
     }
 }

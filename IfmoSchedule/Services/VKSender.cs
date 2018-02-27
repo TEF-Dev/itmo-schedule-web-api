@@ -7,7 +7,7 @@ namespace IfmoSchedule.Services
     {
         private static string Access = "place_here";
         private static string Ver = "5.8";
-        private static string Chat = "10";
+        private static string Chat = "8";
         private static string BaseAddr = "https://api.vk.com/method/messages.send?";
 
 

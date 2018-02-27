@@ -24,11 +24,12 @@ namespace IfmoSchedule.Models
             get => _place;
             set
             {
-                var val = value.Split(",")[0];
-                if (val == "ул.Ломоносова") val = "Ломоносова";
-                if (val == "Кронверкский пр.") val = "Кронверкский";
+                //var val = value.Split(",")[0];
+                //if (val == "ул.Ломоносова") val = "Ломоносова";
+                //if (val == "Кронверкский пр.") val = "Кронверкский";
 
-                _place = val;
+                //_place = val;
+                _place = value;
             }
         }
 

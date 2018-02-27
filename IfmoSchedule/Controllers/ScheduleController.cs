@@ -26,7 +26,7 @@ namespace IfmoSchedule.Controllers
         [HttpGet("{group}/{week:int}/{day}")]
         public string Get(string group, int week, int day)
         {
-            if (week > 2 || week < 0) { return "error with week"; }
+            if (week > 2 || week < 1) { return "error with week"; }
             var msg = ScheduleGenerator.GenerateMessage(group, week, day);
             return msg;
         }
