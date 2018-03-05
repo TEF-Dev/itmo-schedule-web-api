@@ -12,6 +12,7 @@ namespace IfmoSchedule.Services
                 time: currentTime,
                 rule: CalendarWeekRule.FirstFourDayWeek,
                 firstDayOfWeek: DayOfWeek.Monday);
+
             //TODO: DANGER ZONE
             var resultWeek = (currentWeek - 5) % 2;
             return resultWeek == 0 ? Week.Even : Week.Odd;

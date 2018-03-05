@@ -18,6 +18,7 @@ namespace IfmoSchedule.Services
 
         public static string GenerateMessage(string groupName, int week, int day)
         {
+            //TODO: week OutOfRange exception
             var msg = TextConverter.GenerateHeader((Week)week, day);
             msg += GetScheduleData(groupName, (Week)week, day);
             return msg;
@@ -31,8 +32,7 @@ namespace IfmoSchedule.Services
 
             if (!lessonList.Any())
             {
-                //TODO: move to TextConvertor
-                answer = "🔮 Пар не будет, ура!";
+                answer = TextConverter.NoLessonMessage();
                 return answer;
             }
 

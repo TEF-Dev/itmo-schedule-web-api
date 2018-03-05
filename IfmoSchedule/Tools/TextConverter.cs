@@ -26,5 +26,10 @@ namespace IfmoSchedule.Tools
             greeting += " неделя \n";
             return greeting;
         }
+
+        public static string NoLessonMessage()
+        {
+            return "🔮 Пар не будет, ура!";
+        }
     }
 }

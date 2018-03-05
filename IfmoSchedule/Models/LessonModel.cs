@@ -2,6 +2,7 @@
 
 namespace IfmoSchedule.Models
 {
+    //TODO: to struct
     public class LessonModel
     {
         private string _place;
