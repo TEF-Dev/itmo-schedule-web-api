@@ -12,7 +12,7 @@ namespace IfmoSchedule.Services
     {
         public static string GenerateMessage(string groupName)
         {
-            var date = GenerateNextDay();
+            var date = DataTimeService.GenerateNextDay();
             return GetScheduleData(groupName, date.Week, date.Day);
         }
 
@@ -21,31 +21,6 @@ namespace IfmoSchedule.Services
             var msg = TextConverter.GenerateHeader((Week)week, day);
             msg += GetScheduleData(groupName, (Week)week, day);
             return msg;
-        }
-
-        private static Week GetWeekType(DateTime currentTime)
-        {
-            var currentWeek = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(
-                time: currentTime,
-                rule: CalendarWeekRule.FirstFourDayWeek,
-                firstDayOfWeek: DayOfWeek.Monday);
-            //TODO: DANGER ZONE
-            var resultWeek = (currentWeek - 5) % 2;
-            return resultWeek == 0 ? Week.Even : Week.Odd;
-        }
-
-        private static (int Day, Week Week) GenerateCurrentDay()
-        {
-            var current = DateTime.UtcNow;
-            var todayWeek = GetWeekType(current);
-            return ((int)current.DayOfWeek - 1, todayWeek);
-        }
-
-        private static (int Day, Week Week) GenerateNextDay()
-        {
-            var current = DateTime.UtcNow.AddDays(1);
-            var todayWeek = GetWeekType(current);
-            return ((int)current.DayOfWeek - 1, todayWeek);
         }
 
         private static string GetScheduleData(string groupName, Week weekType, int day)
