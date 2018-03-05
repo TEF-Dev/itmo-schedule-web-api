@@ -24,13 +24,13 @@ namespace IfmoSchedule.Test
         public void ModelPropertyTest(string group)
         {
             var repository = new ServerStorageRepository(group);
-            var list = repository.LessonsData;
+            var list = repository.LessonList;
             Assert.IsNotNull(list);
             var data = list.First();
 
             Assert.IsNotNull(data.DayOfWeek);
             Assert.IsNotNull(data.Place);
-            Assert.IsNotNull(data.Room);
+            //Assert.IsNotNull(data.Room);
             Assert.IsNotNull(data.Status);
             //Assert.IsNotNull(data.Teacher);
             Assert.IsNotNull(data.TimeBegin);
@@ -64,7 +64,9 @@ namespace IfmoSchedule.Test
                 second
             };
             Assert.AreEqual(first, second);
-            Assert.IsTrue(ScheduleGenerator.CompareData(firstList, secondList));
+
+            var diff = firstList.Except(secondList);
+            Assert.IsFalse(diff.Any());
         }
     }
 }

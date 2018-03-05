@@ -6,7 +6,6 @@ namespace IfmoSchedule.Models
     {
         private string _place;
 
-
         [JsonProperty("data_day")] public int? DayOfWeek { get; set; }
 
         [JsonProperty("status")] public string Status { get; set; }
@@ -25,7 +24,7 @@ namespace IfmoSchedule.Models
             {
                 if (value == null)
                 {
-                    value = null;
+                    _place = null;
                     return;
                 }
 
@@ -47,15 +46,17 @@ namespace IfmoSchedule.Models
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as LessonModel);
+            if (!(obj is LessonModel other))
+                return false;
+            return Equals(other);
         }
 
         public bool Equals(LessonModel lm)
         {
             return Title == lm.Title
-                         && TimeBegin == lm.TimeBegin
-                         && WeekType == lm.WeekType
-                         && DayOfWeek == lm.DayOfWeek;
+                   && TimeBegin == lm.TimeBegin
+                   && WeekType == lm.WeekType
+                   && DayOfWeek == lm.DayOfWeek;
         }
 
         public override string ToString()

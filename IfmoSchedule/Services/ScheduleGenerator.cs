@@ -64,22 +64,10 @@ namespace IfmoSchedule.Services
             foreach (var item in lessonList)
             {
                 answer += item.ToString();
-                //var room = item.Title == "Иностранный язык" ? "" : $"ауд. {item.Room} ";
-                //answer += $"📌 {item.TimeBegin} -> {item.Title} ({item.Status}), {room}{item.Place}\n";
             }
             return answer;
         }
 
-        public static bool CompareData(List<LessonModel> local, List<LessonModel> serverResponse)
-        {
-            if (local.Count != serverResponse.Count) return false;
-            var isSame = true;
-            for (var i = 0; i < local.Count; i++)
-            {
-                isSame = isSame && local[i].Equals(serverResponse[i]);
-            }
-
-            return isSame;
-        }
+        
     }
 }
