@@ -12,7 +12,7 @@ namespace IfmoSchedule.Services
     {
         public static string GenerateMessage(string groupName)
         {
-            var date = DataTimeService.GenerateNextDay();
+            var date = DataTimeConverter.GenerateNextDay();
             return GetScheduleData(groupName, date.Week, date.Day);
         }
 

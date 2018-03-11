@@ -2,9 +2,9 @@
 using System.Globalization;
 using IfmoSchedule.Models;
 
-namespace IfmoSchedule.Services
+namespace IfmoSchedule.Tools
 {
-    public static class DataTimeService
+    public static class DataTimeConverter
     {
         private static Week GetWeekType(DateTime currentTime)
         {
