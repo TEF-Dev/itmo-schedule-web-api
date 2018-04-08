@@ -13,7 +13,8 @@ namespace IfmoSchedule.Services
         public static string GenerateMessage(string groupName)
         {
             var date = GenerateNextDay();
-            return GetScheduleData(groupName, date.Week, date.Day);
+            var msg = TextConverter.GenerateHeader(date.Week, date.Day);
+            return msg + GetScheduleData(groupName, date.Week, date.Day);
         }
 
         public static string GenerateMessage(string groupName, int week, int day)
