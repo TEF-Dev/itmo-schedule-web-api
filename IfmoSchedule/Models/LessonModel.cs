@@ -2,8 +2,11 @@
 
 namespace IfmoSchedule.Models
 {
+    //TODO: to struct
     public class LessonModel
     {
+        private string _place;
+
         [JsonProperty("data_day")] public int? DayOfWeek { get; set; }
 
         [JsonProperty("status")] public string Status { get; set; }
@@ -14,8 +17,25 @@ namespace IfmoSchedule.Models
 
         [JsonProperty("room")] public string Room { get; set; }
 
-        //TODO: Custom getter
-        [JsonProperty("place")] public string Place { get; set; }
+        [JsonProperty("place")]
+        public string Place
+        {
+            get => _place;
+            set
+            {
+                if (value == null)
+                {
+                    _place = null;
+                    return;
+                }
+
+                var val = value.Split(",")[0];
+                if (val == "ул.Ломоносова") val = "Ломоносова";
+                if (val == "Кронверкский пр.") val = "Кронверкский";
+
+                _place = val;
+            }
+        }
 
         [JsonProperty("title")] public string Title { get; set; }
 
@@ -24,5 +44,28 @@ namespace IfmoSchedule.Models
         [JsonProperty("start_time")] public string TimeBegin { get; set; }
 
         [JsonProperty("end_time")] public string TimeEnd { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is LessonModel other))
+                return false;
+            return Equals(other);
+        }
+
+        public bool Equals(LessonModel lm)
+        {
+            return Title == lm.Title
+                   && TimeBegin == lm.TimeBegin
+                   && WeekType == lm.WeekType
+                   && DayOfWeek == lm.DayOfWeek;
+        }
+
+        public override string ToString()
+        {
+            //TODO: Check
+            var room = Title == "Иностранный язык" ? "" : $"ауд. {Room} ";
+            var s = $"📌 {TimeBegin} -> {Title} ({Status}), {room}{Place}\n";
+            return s;
+        }
     }
 }

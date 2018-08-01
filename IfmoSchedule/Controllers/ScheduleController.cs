@@ -1,4 +1,5 @@
-﻿using IfmoSchedule.Services;
+﻿using System;
+using IfmoSchedule.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IfmoSchedule.Controllers
@@ -7,27 +8,21 @@ namespace IfmoSchedule.Controllers
     [Route("api/Schedule")]
     public class ScheduleController : Controller
     {
-        // GET: api/Schedule
-        [HttpGet]
-        public string Get()
-        {
-            var msg = ScheduleGenerator.GenerateMessage("M3205");
-            return msg;
-        }
-
         [HttpGet("{group}")]
         public string Get(string group)
         {
-            var msg = ScheduleGenerator.GenerateMessage(group);
-            return msg;
+            var correctString = GroupNameValidator.Validate(group);
+            return ScheduleGenerator.GenerateMessage(correctString);
         }
 
-        [HttpGet("{group}/{week}/{day}")]
+        [HttpGet("{group}/{week:int}/{day}")]
         public string Get(string group, int week, int day)
         {
-            //TODO: swap day and week
-            var msg = ScheduleGenerator.GenerateMessage(group, day, week);
-            return msg;
+            if (week > 2 || week < 1)
+                return "error with week";
+
+            var correctString = GroupNameValidator.Validate(group);
+            return ScheduleGenerator.GenerateMessage(correctString, week, day);
         }
     }
 }

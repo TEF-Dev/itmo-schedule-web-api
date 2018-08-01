@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IfmoSchedule", "IfmoSchedule\IfmoSchedule.csproj", "{D625B803-5308-466C-91D2-A301C099CC61}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IfmoSchedule", "IfmoSchedule\IfmoSchedule.csproj", "{D625B803-5308-466C-91D2-A301C099CC61}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IfmoSchedule.Test", "IfmoSchedule.Test\IfmoSchedule.Test.csproj", "{FC4B752C-9DC0-4883-8302-D4949D1FE002}"
 EndProject
