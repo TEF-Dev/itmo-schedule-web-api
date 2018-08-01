@@ -1,5 +1,5 @@
 ﻿using System;
-using IfmoSchedule.Services;
+using IfmoSchedule.ScheduleManager.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IfmoSchedule.Test
@@ -10,7 +10,7 @@ namespace IfmoSchedule.Test
         [TestMethod]
         public void MessageNotNull()
         {
-            var msg = ScheduleGenerator.GenerateMessage("M3205");
+            var msg = MessageGeneratorService.CreateDailyMessage("M3205");
 
             Assert.IsTrue(msg != string.Empty);
         }

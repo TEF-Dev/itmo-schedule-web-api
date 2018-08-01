@@ -1,5 +1,6 @@
 ﻿using System;
-using IfmoSchedule.Services;
+using IfmoSchedule.ScheduleManager.Models;
+using IfmoSchedule.ScheduleManager.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IfmoSchedule.Controllers
@@ -11,18 +12,16 @@ namespace IfmoSchedule.Controllers
         [HttpGet("{group}")]
         public string Get(string group)
         {
-            var correctString = GroupNameValidator.Validate(group);
-            return ScheduleGenerator.GenerateMessage(correctString);
+            return MessageGeneratorService.CreateDailyMessage(group);
         }
 
         [HttpGet("{group}/{week:int}/{day}")]
         public string Get(string group, int week, int day)
         {
             if (week > 2 || week < 1)
-                return "error with week";
+                throw new ArgumentException("Incorrect week type");
 
-            var correctString = GroupNameValidator.Validate(group);
-            return ScheduleGenerator.GenerateMessage(correctString, week, day);
+            return MessageGeneratorService.CreateDailyMessage(group, (WeekType) week, day);
         }
     }
 }

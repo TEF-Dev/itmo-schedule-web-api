@@ -1,6 +1,6 @@
-﻿namespace IfmoSchedule.Models
+﻿namespace IfmoSchedule.ScheduleManager.Models
 {
-    public enum Week
+    public enum WeekType
     {
         Even = 1, //чет 
         Odd = 2, //нечет 

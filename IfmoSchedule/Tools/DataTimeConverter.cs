@@ -1,40 +1,28 @@
 ﻿using System;
 using System.Globalization;
-using IfmoSchedule.Models;
+using IfmoSchedule.ScheduleManager.Models;
 
 namespace IfmoSchedule.Tools
 {
     public static class DataTimeConverter
     {
-        private static Week GetWeekType(DateTime currentTime)
-        {
-            var currentWeek = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(
-                time: currentTime,
-                rule: CalendarWeekRule.FirstFourDayWeek,
-                firstDayOfWeek: DayOfWeek.Monday);
-
-            //TODO: DANGER ZONE
-            var resultWeek = (currentWeek - 5) % 2;
-            return resultWeek == 0 ? Week.Even : Week.Odd;
-        }
-
-        private static (int Day, Week Week) Convert(DateTime data)
+        public static (int Day, WeekType Week) GetDayAndWeek(DateTime data)
         {
             var todayWeek = GetWeekType(data);
             var todayDay = (int) data.DayOfWeek;
             return (todayDay, todayWeek);
         }
 
-        public static (int Day, Week Week) GenerateCurrentDay()
+        private static WeekType GetWeekType(DateTime currentTime)
         {
-            var current = DateTime.UtcNow;
-            return Convert(current);
-        }
+            var currentWeek = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(
+                currentTime,
+                CalendarWeekRule.FirstFourDayWeek,
+                DayOfWeek.Monday);
 
-        public static (int Day, Week Week) GenerateNextDay()
-        {
-            var current = DateTime.UtcNow.AddDays(1);
-            return Convert(current);
+            //TODO: DANGER ZONE
+            var resultWeek = (currentWeek - 5) % 2;
+            return resultWeek == 0 ? WeekType.Even : WeekType.Odd;
         }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using IfmoSchedule.Services;
-using Microsoft.AspNetCore.Http;
+using IfmoSchedule.ScheduleManager.Services;
+using IfmoSchedule.Tools;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IfmoSchedule.Controllers
@@ -18,8 +15,8 @@ namespace IfmoSchedule.Controllers
             if (group != "M3205")
                 throw new NotImplementedException();
 
-            var msg = ScheduleGenerator.GenerateMessage("M3205");
-            VkSenderService.Send(msg);
+            var msg = MessageGeneratorService.CreateDailyMessage("M3205");
+            VkSender.Send(msg);
             return msg;
         }
     }
