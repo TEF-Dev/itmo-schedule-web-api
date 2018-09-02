@@ -10,6 +10,7 @@ namespace IfmoSchedule.Tools
         {
             var todayWeek = GetWeekType(data);
             var todayDay = (int) data.DayOfWeek;
+            todayDay = (todayDay + 6) % 7;
             return (todayDay, todayWeek);
         }
 
@@ -21,7 +22,7 @@ namespace IfmoSchedule.Tools
                 DayOfWeek.Monday);
 
             //TODO: DANGER ZONE
-            var resultWeek = (currentWeek - 5) % 2;
+            var resultWeek = (currentWeek - 4) % 2;
             return resultWeek == 0 ? WeekType.Even : WeekType.Odd;
         }
     }

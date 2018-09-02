@@ -13,7 +13,7 @@ namespace IfmoSchedule.Controllers
     [Route("api/Comparing")]
     public class ComparingController : Controller
     {
-        [HttpGet("{groupFirst/groupSecond}")]
+        [HttpGet("{groupFirst}/{groupSecond}")]
         public string GroupLessonCompare(string groupFirst, string groupSecond)
         {
             throw new NotImplementedException();
