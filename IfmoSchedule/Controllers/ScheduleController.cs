@@ -1,5 +1,6 @@
 ﻿using System;
 using IfmoSchedule.ScheduleManager.Models;
+using IfmoSchedule.ScheduleManager.Repositories;
 using IfmoSchedule.ScheduleManager.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,6 +38,14 @@ namespace IfmoSchedule.Controllers
                 return BadRequest(ex.Message);
             }
 
+        }
+
+        [HttpGet("update/{group}")]
+        public void UpdateLocalData(string group)
+        {
+            LocalStorageRepository localStorage = new LocalStorageRepository();
+            ServerStorageRepository storage = new ServerStorageRepository();
+            localStorage.Update(group, storage.GetLessonList(group));
         }
     }
 }

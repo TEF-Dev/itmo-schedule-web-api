@@ -8,27 +8,32 @@ namespace IfmoSchedule.ScheduleManager.Repositories
 {
     public class LocalStorageRepository
     {
-        private const string LocalBackupFileName = @"LocalBackup.json";
+        private string LocalBackupFileName(string groupName) => $"LocalBackup{groupName}.json";
 
-        public List<LessonModel> GetLessonList()
+        public List<LessonModel> GetLessonList(string groupName)
         {
-            return ReadFromFile();
+            return ReadFromFile(groupName);
         }
 
-        public List<LessonModel> GetLessonList(int day, WeekType weekType)
+        public List<LessonModel> GetLessonList(string groupName, int day, WeekType weekType)
         {
-            return ReadFromFile()
+            return ReadFromFile(groupName)
                 .Where(l => l.DayOfWeek == day
                             && (l.WeekType == weekType || l.WeekType == WeekType.All))
                 .ToList();
         }
 
-        private static List<LessonModel> ReadFromFile()
+        public void Update(string groupName, List<LessonModel> lessons)
         {
-            if (!File.Exists(LocalBackupFileName))
-                throw new FileNotFoundException(LocalBackupFileName);
+            File.WriteAllText(LocalBackupFileName(groupName), JsonConvert.SerializeObject(lessons));
+        }
 
-            var fileData = File.ReadAllText(LocalBackupFileName);
+        private List<LessonModel> ReadFromFile(string groupName)
+        {
+            if (!File.Exists(LocalBackupFileName(groupName)))
+                return new List<LessonModel>();
+
+            var fileData = File.ReadAllText(LocalBackupFileName(groupName));
             return JsonConvert.DeserializeObject<List<LessonModel>>(fileData);
         }
     }
