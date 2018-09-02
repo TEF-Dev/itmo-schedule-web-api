@@ -25,15 +25,14 @@ namespace IfmoSchedule.ScheduleManager.Services
             string prefix = "";
             if (lessonList.Except(localList).Any())
             {
-                prefix = "ИСУ вернула другое расписание\n";
-                return "ИСУ вернула другое расписание\n"
+                return msg + "❌ ИСУ вернула расписание, отличное от локального\n"
                     + "С ИСУ:\n" + string.Join("\n", lessonList.Select(AnswerGeneratorService.LessonToString))
                     + "\nЛокально:\n" + string.Join("\n", localList.Select(AnswerGeneratorService.LessonToString));
             }
 
             if (!lessonList.Any())
             {
-                return prefix + AnswerGeneratorService.NoLessonMessage();
+                return msg + prefix + AnswerGeneratorService.NoLessonMessage();
             }
 
             msg += string.Join("\n", lessonList.Select(AnswerGeneratorService.LessonToString));

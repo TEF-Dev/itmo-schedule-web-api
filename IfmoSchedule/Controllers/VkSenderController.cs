@@ -10,14 +10,13 @@ namespace IfmoSchedule.Controllers
     public class VkSenderController : Controller
     {
         [HttpGet("{group}")]
-        public string SendBotMessage(string group)
+        public ActionResult SendBotMessage(string group)
         {
-            if (group != "M3205")
+            if (group != "M3305")
                 throw new NotImplementedException();
 
-            var msg = MessageGeneratorService.CreateDailyMessage("M3205");
-            VkSender.Send(msg);
-            return msg;
+            var msg = MessageGeneratorService.CreateDailyMessage("M3305");
+            return Ok(VkSender.Send(msg));
         }
     }
 }
