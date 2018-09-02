@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using IfmoSchedule.Controllers;
+using IfmoSchedule.ScheduleManager.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IfmoSchedule.Test
@@ -12,9 +13,7 @@ namespace IfmoSchedule.Test
         [TestMethod]
         public void MessageNotNull()
         {
-            var controller = new ScheduleController();
-            var msg = controller.Get("m3205");
-            
+            var msg = MessageGeneratorService.NextDaySchedule("m3205");
 
             Assert.IsTrue(msg != string.Empty);
         }

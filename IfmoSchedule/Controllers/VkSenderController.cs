@@ -15,7 +15,7 @@ namespace IfmoSchedule.Controllers
             if (group != "M3305")
                 throw new NotImplementedException();
 
-            var msg = MessageGeneratorService.CreateDailyMessage("M3305");
+            var msg = MessageGeneratorService.NextDaySchedule("M3305");
             return Ok(VkSender.Send(msg));
         }
     }
