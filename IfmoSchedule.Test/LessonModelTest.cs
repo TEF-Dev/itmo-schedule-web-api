@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using IfmoSchedule.Models;
-using IfmoSchedule.Repositories;
-using IfmoSchedule.Services;
+using IfmoSchedule.ScheduleManager.Models;
+using IfmoSchedule.ScheduleManager.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IfmoSchedule.Test
@@ -23,14 +22,14 @@ namespace IfmoSchedule.Test
         [DataRow("M3211")]
         public void ModelPropertyTest(string group)
         {
-            var repository = new ServerStorageRepository(group);
-            var list = repository.LessonsData;
+            var repository = new ServerStorageRepository();
+            var list = repository.GetLessonList(group);
             Assert.IsNotNull(list);
             var data = list.First();
 
             Assert.IsNotNull(data.DayOfWeek);
             Assert.IsNotNull(data.Place);
-            Assert.IsNotNull(data.Room);
+            //Assert.IsNotNull(data.Room);
             Assert.IsNotNull(data.Status);
             //Assert.IsNotNull(data.Teacher);
             Assert.IsNotNull(data.TimeBegin);
@@ -64,7 +63,9 @@ namespace IfmoSchedule.Test
                 second
             };
             Assert.AreEqual(first, second);
-            Assert.IsTrue(ScheduleGenerator.CompareData(firstList, secondList));
+
+            var diff = firstList.Except(secondList);
+            Assert.IsFalse(diff.Any());
         }
     }
 }
