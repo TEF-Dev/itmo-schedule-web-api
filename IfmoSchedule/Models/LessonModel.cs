@@ -17,13 +17,18 @@ namespace IfmoSchedule.Models
 
         [JsonProperty("room")] public string Room { get; set; }
 
-        //TODO: Custom getter
         [JsonProperty("place")]
         public string Place
         {
             get => _place;
             set
             {
+                if (value == null)
+                {
+                    value = null;
+                    return;
+                }
+
                 var val = value.Split(",")[0];
                 if (val == "ул.Ломоносова") val = "Ломоносова";
                 if (val == "Кронверкский пр.") val = "Кронверкский";
@@ -47,13 +52,18 @@ namespace IfmoSchedule.Models
 
         public bool Equals(LessonModel lm)
         {
-            var isSame = true;
-            isSame = isSame && (Title == lm.Title);
-            isSame = isSame && (TimeBegin == lm.TimeBegin);
-            isSame = isSame && (WeekType == lm.WeekType);
-            isSame = isSame && (DayOfWeek == lm.DayOfWeek);
+            return Title == lm.Title
+                         && TimeBegin == lm.TimeBegin
+                         && WeekType == lm.WeekType
+                         && DayOfWeek == lm.DayOfWeek;
+        }
 
-            return isSame;
+        public override string ToString()
+        {
+            //TODO: Check
+            var room = Title == "Иностранный язык" ? "" : $"ауд. {Room} ";
+            var s = $"📌 {TimeBegin} -> {Title} ({Status}), {room}{Place}\n";
+            return s;
         }
     }
 }

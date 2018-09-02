@@ -10,11 +10,21 @@ namespace IfmoSchedule.Test
     [TestClass]
     public class LessonModelTest
     {
-        [TestMethod]
-        public void ModelPropertyTest()
+        [DataTestMethod]
+        [DataRow("M3200")]
+        [DataRow("M3201")]
+        [DataRow("M3203")]
+        [DataRow("M3205")]
+        [DataRow("M3206")]
+        [DataRow("M3207")]
+        [DataRow("M3208")]
+        [DataRow("M3209")]
+        [DataRow("M3210")]
+        [DataRow("M3211")]
+        public void ModelPropertyTest(string group)
         {
-            var repository = new ServerStorageRepository("M3205");
-            var list = repository.GetAllLesson();
+            var repository = new ServerStorageRepository(group);
+            var list = repository.LessonsData;
             Assert.IsNotNull(list);
             var data = list.First();
 

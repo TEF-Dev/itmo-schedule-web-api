@@ -12,7 +12,7 @@ namespace IfmoSchedule.Test
         public void LessonList_NotNull()
         {
             var repo = new ServerStorageRepository("M3205");
-            var lessons = repo.GetAllLesson();
+            var lessons = repo.LessonsData;
             Assert.IsNotNull(lessons);
         }
 
@@ -20,7 +20,7 @@ namespace IfmoSchedule.Test
         public void LessonList_NotEmpty()
         {
             var repo = new ServerStorageRepository("M3205");
-            var lessons = repo.GetAllLesson();
+            var lessons = repo.LessonsData;
             Assert.IsTrue(lessons.Any());
         }
 
