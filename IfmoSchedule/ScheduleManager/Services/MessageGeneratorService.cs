@@ -8,9 +8,16 @@ namespace IfmoSchedule.ScheduleManager.Services
 {
     public static class MessageGeneratorService
     {
-        public static string CreateDailyMessage(string groupName)
+        public static string NextDaySchedule(string groupName)
         {
-            var date = DataTimeConverter.GetDayAndWeek(DateTime.UtcNow.AddDays(1));
+            var nextDay = DateTime.UtcNow.AddDays(1);
+            var date = DataTimeConverter.GetDayAndWeek(nextDay);
+            return CreateDailyMessage(groupName, date.Week, date.Day);
+        }
+
+        public static string TodaySchedule(string groupName)
+        {
+            var date = DataTimeConverter.GetDayAndWeek(DateTime.UtcNow);
             return CreateDailyMessage(groupName, date.Week, date.Day);
         }
 
@@ -18,25 +25,20 @@ namespace IfmoSchedule.ScheduleManager.Services
         {
             var repository = new ServerStorageRepository();
             var localRepo = new LocalStorageRepository();
-            var msg = AnswerGeneratorService.GenerateHeader(week, day);
             var lessonList = repository.GetLessonList(groupName, day, week);
             var localList = localRepo.GetLessonList(groupName, day, week);
 
-            string prefix = "";
+            var msg = AnswerGeneratorService.GenerateHeader(week, day);
             if (lessonList.Except(localList).Any())
-            {
-                return msg + "❌ ИСУ вернула расписание, отличное от локального\n"
-                    + "С ИСУ:\n" + string.Join("\n", lessonList.Select(AnswerGeneratorService.LessonToString))
-                    + "\nЛокально:\n" + string.Join("\n", localList.Select(AnswerGeneratorService.LessonToString));
-            }
+                msg += "❌ ИСУ вернула расписание, отличное от локального\n"
+                       + "С ИСУ:\n" + string.Join("\n", lessonList.Select(AnswerGeneratorService.LessonToString))
+                       + "\nЛокально:\n" + string.Join("\n", localList.Select(AnswerGeneratorService.LessonToString));
+            else if (!lessonList.Any())
+                msg += AnswerGeneratorService.NoLessonMessage();
+            else
+                msg += string.Join("\n", lessonList.Select(AnswerGeneratorService.LessonToString));
 
-            if (!lessonList.Any())
-            {
-                return msg + prefix + AnswerGeneratorService.NoLessonMessage();
-            }
-
-            msg += string.Join("\n", lessonList.Select(AnswerGeneratorService.LessonToString));
-            return prefix + msg;
+            return msg;
         }
     }
 }

@@ -17,7 +17,6 @@ namespace IfmoSchedule.ScheduleManager.Models
         public string Place
         {
             get => _place;
-            //TODO: Проверить работоспособность
             set => _place = value?.Split(",")
                 .First()
                 .Replace("ул.Ломоносова", "Ломо")
