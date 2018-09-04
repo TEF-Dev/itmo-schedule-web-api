@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using IfmoSchedule.ScheduleManager.Models;
@@ -17,10 +18,18 @@ namespace IfmoSchedule.ScheduleManager.Repositories
 
         public List<LessonModel> GetLessonList(string groupName, int day, WeekType weekType)
         {
-            return ReadFromFile(groupName)
-                .Where(l => l.DayOfWeek == day
-                            && (l.WeekType == weekType || l.WeekType == WeekType.All))
-                .ToList();
+            try
+            {
+                return ReadFromFile(groupName)
+                    .Where(l => l.DayOfWeek == day
+                                && (l.WeekType == weekType || l.WeekType == WeekType.All))
+                    .ToList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            
         }
 
         public void Update(string groupName, List<LessonModel> lessons)

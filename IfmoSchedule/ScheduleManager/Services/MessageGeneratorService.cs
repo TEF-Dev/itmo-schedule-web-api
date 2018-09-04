@@ -25,20 +25,46 @@ namespace IfmoSchedule.ScheduleManager.Services
         {
             var repository = new ServerStorageRepository();
             var localRepo = new LocalStorageRepository();
-            var lessonList = repository.GetLessonList(groupName, day, week);
-            var localList = localRepo.GetLessonList(groupName, day, week);
+            var isuSchedule = repository.GetLessonList(groupName, day, week);
+            var localSchedule = localRepo.GetLessonList(groupName, day, week);
+            var header = AnswerGeneratorService.GenerateHeader(week, day);
 
-            var msg = AnswerGeneratorService.GenerateHeader(week, day);
-            if (lessonList.Except(localList).Any())
-                msg += "❌ ИСУ вернула расписание, отличное от локального\n"
-                       + "С ИСУ:\n" + string.Join("\n", lessonList.Select(AnswerGeneratorService.LessonToString))
-                       + "\nЛокально:\n" + string.Join("\n", localList.Select(AnswerGeneratorService.LessonToString));
-            else if (!lessonList.Any())
-                msg += AnswerGeneratorService.NoLessonMessage();
+            if (isuSchedule == null)
+            {
+                //TODO: isu empty
+                if (localSchedule == null)
+                {
+                    //TODO: isu and local empty
+                }
+                else
+                {
+                    //TODO: return local schedule
+                }
+            }
             else
-                msg += string.Join("\n", lessonList.Select(AnswerGeneratorService.LessonToString));
+            {
+                if (localSchedule == null)
+                {
+                    //TODO: no local data
+                }
+                else
+                {
+                    if (isuSchedule.Except(localSchedule).Any())
+                    {
+                        return header + AnswerGeneratorService.DifferentSchedule(isuSchedule, localSchedule);
+                    }
+                    else if (!isuSchedule.Any())
+                    {
+                        return header += AnswerGeneratorService.NoLessonMessage();
+                    }
+                    else
+                    {
+                        return header += string.Join("\n", isuSchedule.Select(AnswerGeneratorService.LessonToString));
+                    }
+                }
+            }
 
-            return msg;
+            return header;
         }
     }
 }

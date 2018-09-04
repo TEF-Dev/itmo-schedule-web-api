@@ -2,19 +2,23 @@
 
 namespace IfmoSchedule.Tools
 {
-    public static class VkSender
+    public class VkSender
     {
-        //TODO: token
-        private const string Access = "place_token_here";
         private const string Ver = "5.8";
         private const string Chat = "8";
-        private const string BaseAddr = "https://api.vk.com/method/messages.send?";
+        private const string BaseAddress = "https://api.vk.com/method/messages.send?";
 
-        public static HttpResponseMessage Send(string message)
+        private readonly string _token;
+
+        public VkSender(string token)
         {
-            var address = $"{BaseAddr}access_token={Access}&chat_id={Chat}&v={Ver}&message={message}";
+            _token = token;
+        }
+        public HttpContent Send(string message)
+        {
+            var address = $"{BaseAddress}access_token={_token}&chat_id={Chat}&v={Ver}&message={message}";
             var client = new HttpClient();
-            return client.GetAsync(address).Result;
+            return client.GetAsync(address).Result.Content;
         }
     }
 }

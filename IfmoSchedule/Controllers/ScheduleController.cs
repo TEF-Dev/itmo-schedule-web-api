@@ -46,7 +46,7 @@ namespace IfmoSchedule.Controllers
 
             if (week > 2 || week < 1)
                 return BadRequest("Week incorrect. 2 код нечетной и 1 четной");
-
+    
             try
             {
                 return Ok(MessageGeneratorService.CreateDailyMessage(group, (WeekType)week, (int)day));

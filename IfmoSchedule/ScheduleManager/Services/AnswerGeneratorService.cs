@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using IfmoSchedule.ScheduleManager.Models;
 
 namespace IfmoSchedule.ScheduleManager.Services
@@ -23,6 +25,14 @@ namespace IfmoSchedule.ScheduleManager.Services
         public static string NoLessonMessage()
         {
             return "🔮 Пар не будет, ура!";
+        }
+
+        public static string DifferentSchedule(List<LessonModel> isuSchedule, List<LessonModel> localSchedule)
+        {
+            throw new NotImplementedException();
+            return "❌ ИСУ вернула расписание, отличное от локального\n"
+                   + "С ИСУ:\n" + string.Join("\n", isuSchedule.Select(AnswerGeneratorService.LessonToString))
+                   + "\nЛокально:\n" + string.Join("\n", localSchedule.Select(AnswerGeneratorService.LessonToString));
         }
 
         private static string GetDayName(int day)

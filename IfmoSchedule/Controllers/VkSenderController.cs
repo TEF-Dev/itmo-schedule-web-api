@@ -9,14 +9,13 @@ namespace IfmoSchedule.Controllers
     [Route("api/VkSender")]
     public class VkSenderController : Controller
     {
-        [HttpGet("{group}")]
-        public ActionResult SendBotMessage(string group)
+        [HttpGet]
+        public ActionResult SendBotMessage([FromRoute]string group, [FromRoute]string token)
         {
-            if (group != "M3305")
-                throw new NotImplementedException();
+            VkSender vkSender = new VkSender(token);
 
-            var msg = MessageGeneratorService.NextDaySchedule("M3305");
-            return Ok(VkSender.Send(msg));
+            var msg = MessageGeneratorService.NextDaySchedule(group);
+            return Ok(vkSender.Send(msg));
         }
     }
 }

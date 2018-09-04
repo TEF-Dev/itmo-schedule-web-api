@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using IfmoSchedule.ScheduleManager.Models;
@@ -17,18 +18,26 @@ namespace IfmoSchedule.ScheduleManager.Repositories
 
         public List<LessonModel> GetLessonList(string groupName, int day, WeekType weekType)
         {
-            var lessons = GetFromApi(groupName);
-            return lessons
-                .Where(l => l.DayOfWeek == day
-                            && (l.WeekType == weekType || l.WeekType == WeekType.All))
-                .ToList();
+            try
+            {
+                var lessons = GetFromApi(groupName);
+                return lessons
+                    .Where(l => l.DayOfWeek == day
+                                && (l.WeekType == weekType || l.WeekType == WeekType.All))
+                    .ToList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            
         }
 
         private List<LessonModel> GetFromApi(string groupName)
         {
             var address = $"{BaseUrl}{groupName}";
 
-            var client = new HttpClient();
+            var client = new HttpClient {Timeout = TimeSpan.FromSeconds(10)};
             var httpResponseMessage = client.GetAsync(address).Result;
             var jsonString = httpResponseMessage.Content.ReadAsStringAsync().Result;
             var lessonsObject = JObject.Parse(jsonString);
