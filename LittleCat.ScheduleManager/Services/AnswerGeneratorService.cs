@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using IfmoSchedule.ScheduleManager.Models;
+using LittleCat.ScheduleManager.Models;
 
-namespace IfmoSchedule.ScheduleManager.Services
+namespace LittleCat.ScheduleManager.Services
 {
     public static class AnswerGeneratorService
     {

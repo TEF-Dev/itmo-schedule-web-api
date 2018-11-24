@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using IfmoSchedule.ScheduleManager.Models;
+using LittleCat.ScheduleManager.Models;
 
-namespace IfmoSchedule.Tools
+namespace LittleCat.ScheduleManager.Services
 {
     public static class DataTimeConverter
     {

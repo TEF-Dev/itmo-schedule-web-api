@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using IfmoSchedule.ScheduleManager.Models;
+using LittleCat.ScheduleManager.Models;
 using Newtonsoft.Json;
 
-namespace IfmoSchedule.ScheduleManager.Repositories
+namespace LittleCat.ScheduleManager.Repositories
 {
     public class LocalStorageRepository
     {

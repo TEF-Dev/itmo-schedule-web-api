@@ -1,7 +1,7 @@
 ﻿using System;
-using IfmoSchedule.ScheduleManager.Models;
-using IfmoSchedule.ScheduleManager.Repositories;
 using IfmoSchedule.ScheduleManager.Services;
+using LittleCat.ScheduleManager.Models;
+using LittleCat.ScheduleManager.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IfmoSchedule.Controllers

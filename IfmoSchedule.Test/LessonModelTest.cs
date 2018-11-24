@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using IfmoSchedule.ScheduleManager.Models;
-using IfmoSchedule.ScheduleManager.Repositories;
+using LittleCat.ScheduleManager.Models;
+using LittleCat.ScheduleManager.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IfmoSchedule.Test

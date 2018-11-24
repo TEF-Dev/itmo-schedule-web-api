@@ -1,9 +1,8 @@
 ﻿using System.Linq;
 using Newtonsoft.Json;
 
-namespace IfmoSchedule.ScheduleManager.Models
+namespace LittleCat.ScheduleManager.Models
 {
-    //TODO: to struct
     public class LessonModel
     {
         private string _place;
@@ -13,9 +12,15 @@ namespace IfmoSchedule.ScheduleManager.Models
         [JsonProperty("data_week")] public WeekType WeekType { get; set; }
         [JsonProperty("subj_time")] public string FullTime { get; set; }
         [JsonProperty("room")] public string Room { get; set; }
+        [JsonProperty("title")] public string Title { get; set; }
+        [JsonProperty("person")] public string Teacher { get; set; }
+        [JsonProperty("start_time")] public string TimeBegin { get; set; }
+        [JsonProperty("end_time")] public string TimeEnd { get; set; }
+
         [JsonProperty("place")]
         public string Place
         {
+            //TODO: fix it
             get => _place;
             set => _place = value?.Split(",")
                 .First()
@@ -23,20 +28,16 @@ namespace IfmoSchedule.ScheduleManager.Models
                 .Replace("Кронверкский пр.", "Кронв");
         }
 
-        [JsonProperty("title")] public string Title { get; set; }
-        [JsonProperty("person")] public string Teacher { get; set; }
-        [JsonProperty("start_time")] public string TimeBegin { get; set; }
-        [JsonProperty("end_time")] public string TimeEnd { get; set; }
-
         public override bool Equals(object obj)
         {
             if (!(obj is LessonModel lm))
+            {
                 return false;
-
+            }
 
             return Title == lm.Title
                    && TimeBegin == lm.TimeBegin
-                   && WeekType == lm.WeekType
+                   && WeekType.Compare(lm.WeekType) 
                    && DayOfWeek == lm.DayOfWeek;
         }
 
@@ -44,7 +45,7 @@ namespace IfmoSchedule.ScheduleManager.Models
         {
             unchecked
             {
-                var hashCode = _place != null ? _place.GetHashCode() : 0;
+                int hashCode = _place != null ? _place.GetHashCode() : 0;
                 hashCode = (hashCode * 397) ^ DayOfWeek.GetHashCode();
                 hashCode = (hashCode * 397) ^ (Status != null ? Status.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ WeekType.GetHashCode();
