@@ -62,8 +62,7 @@ namespace IfmoSchedule.Controllers
         public void UpdateLocalData(string group)
         {
             var localStorage = new LocalStorageRepository();
-            var storage = new ServerStorageRepository();
-            localStorage.Update(group, storage.GetLessonList(group));
+            localStorage.Update(group, ServerApiRepository.GetLessonList(group));
         }
     }
 }

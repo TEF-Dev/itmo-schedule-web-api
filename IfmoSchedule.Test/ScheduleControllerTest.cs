@@ -13,7 +13,7 @@ namespace IfmoSchedule.Test
         [TestMethod]
         public void MessageNotNull()
         {
-            var msg = MessageGeneratorService.NextDaySchedule("m3205");
+            string msg = MessageGeneratorService.NextDaySchedule("m3205");
 
             Assert.IsTrue(msg != string.Empty);
         }

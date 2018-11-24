@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using LittleCat.ScheduleManager.Models;
 using LittleCat.ScheduleManager.Repositories;
@@ -8,37 +9,35 @@ namespace IfmoSchedule.Test
     [TestClass]
     public class LessonRepositoryTest
     {
-        private static ServerStorageRepository _repository = new ServerStorageRepository();
-        private const string _groupName = "M3205";
+        private const string GroupName = "M3305";
         [TestMethod]
         public void LessonList_NotNull()
         {
-            var lessons = _repository.GetLessonList(_groupName);
+            List<LessonModel> lessons = ServerApiRepository.GetLessonList(GroupName);
             Assert.IsNotNull(lessons);
         }
 
         [TestMethod]
         public void LessonList_NotEmpty()
         {
-            var lessons = _repository.GetLessonList(_groupName);
+            List<LessonModel> lessons = ServerApiRepository.GetLessonList(GroupName);
             Assert.IsTrue(lessons.Any());
         }
 
         [TestMethod]
         public void DayLessonList_NotEmpty()
         {
-            var lessons = _repository.GetLessonList(_groupName, 1, WeekType.All);
+            List<LessonModel> lessons = ServerApiRepository.GetLessonList(GroupName, 1, WeekType.All);
             Assert.IsTrue(lessons.Any());
         }
 
-        [DataRow(0, WeekType.Even, 4)]
-        [DataRow(0, WeekType.Odd, 3)]
+        [DataRow(1, WeekType.Even, 3)]
+        [DataRow(1, WeekType.Odd, 2)]
         [DataTestMethod]
         public void MondayLessonList(int day, WeekType weekType, int count)
         {
-            //TODO: fix this test
-            //var lessons = _repository.GetLessonList(_groupName, day, weekType);
-            //Assert.AreEqual(lessons.Count(), count);
+            List<LessonModel> lessons = ServerApiRepository.GetLessonList(GroupName, day, weekType);
+            Assert.AreEqual(lessons.Count, count);
         }
     }
 }

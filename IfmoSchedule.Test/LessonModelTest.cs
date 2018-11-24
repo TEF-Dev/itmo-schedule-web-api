@@ -10,22 +10,17 @@ namespace IfmoSchedule.Test
     public class LessonModelTest
     {
         [DataTestMethod]
-        [DataRow("M3200")]
-        [DataRow("M3201")]
-        [DataRow("M3203")]
-        [DataRow("M3205")]
-        [DataRow("M3206")]
-        [DataRow("M3207")]
-        [DataRow("M3208")]
-        [DataRow("M3209")]
-        [DataRow("M3210")]
-        [DataRow("M3211")]
+        [DataRow("M3303")]
+        [DataRow("M3305")]
+        [DataRow("M3306")]
+        [DataRow("M3307")]
+        [DataRow("M3308")]
+        [DataRow("M3309")]
         public void ModelPropertyTest(string group)
         {
-            var repository = new ServerStorageRepository();
-            var list = repository.GetLessonList(group);
+            List<LessonModel> list = ServerApiRepository.GetLessonList(group);
             Assert.IsNotNull(list);
-            var data = list.First();
+            LessonModel data = list.First();
 
             Assert.IsNotNull(data.DayOfWeek);
             Assert.IsNotNull(data.Place);
@@ -64,7 +59,7 @@ namespace IfmoSchedule.Test
             };
             Assert.AreEqual(first, second);
 
-            var diff = firstList.Except(secondList);
+            IEnumerable<LessonModel> diff = firstList.Except(secondList);
             Assert.IsFalse(diff.Any());
         }
     }

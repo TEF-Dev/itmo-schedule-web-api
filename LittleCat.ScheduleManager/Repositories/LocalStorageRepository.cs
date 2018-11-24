@@ -21,13 +21,12 @@ namespace LittleCat.ScheduleManager.Repositories
             try
             {
                 return ReadFromFile(groupName)
-                    .Where(l => l.DayOfWeek == day
-                                && (l.WeekType == weekType || l.WeekType == WeekType.All))
+                    .Where(l => l.DayOfWeek == day && l.WeekType.Compare(weekType))
                     .ToList();
             }
             catch (Exception)
             {
-                return null;
+                return new List<LessonModel>();
             }
             
         }

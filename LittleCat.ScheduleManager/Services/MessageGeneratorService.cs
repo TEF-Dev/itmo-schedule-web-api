@@ -23,9 +23,8 @@ namespace IfmoSchedule.ScheduleManager.Services
 
         public static string CreateDailyMessage(string groupName, WeekType week, int day)
         {
-            var repository = new ServerStorageRepository();
             var localRepo = new LocalStorageRepository();
-            var isuSchedule = repository.GetLessonList(groupName, day, week);
+            var isuSchedule = ServerApiRepository.GetLessonList(groupName, day, week);
             var localSchedule = localRepo.GetLessonList(groupName, day, week);
             var header = AnswerGeneratorService.GenerateHeader(week, day);
 
