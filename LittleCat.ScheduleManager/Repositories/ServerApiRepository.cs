@@ -23,7 +23,7 @@ namespace LittleCat.ScheduleManager.Repositories
         public static List<LessonModel> GetLessonList(string groupName)
         {
             string address = $"{BaseUrl}{groupName}";
-            
+
             //TODO: check timeout
             var client = new HttpClient {Timeout = TimeSpan.FromSeconds(10)};
             try

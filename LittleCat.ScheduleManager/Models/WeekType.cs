@@ -1,4 +1,6 @@
-﻿namespace LittleCat.ScheduleManager.Models
+﻿using System;
+
+namespace LittleCat.ScheduleManager.Models
 {
     public enum WeekType
     {
@@ -14,6 +16,19 @@
             if (first == WeekType.All || other == WeekType.All)
                 return true;
             return (first == other);
+        }
+
+        public static string MakeString(this WeekType week)
+        {
+            switch (week)
+            {
+                case WeekType.Even:
+                    return "чётная";
+                case WeekType.Odd:
+                    return "нечётная";  
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(week), week, null);
+            }
         }
     }
 }

@@ -9,7 +9,10 @@ namespace LittleCat.ScheduleManager.Repositories
 {
     public class LocalStorageRepository
     {
-        private string LocalBackupFileName(string groupName) => $"LocalBackup{groupName}.json";
+        private string LocalBackupFileName(string groupName)
+        {
+            return $"LocalBackup{groupName}.json";
+        }
 
         public List<LessonModel> GetLessonList(string groupName)
         {
@@ -28,7 +31,6 @@ namespace LittleCat.ScheduleManager.Repositories
             {
                 return new List<LessonModel>();
             }
-            
         }
 
         public void Update(string groupName, List<LessonModel> lessons)
@@ -39,9 +41,11 @@ namespace LittleCat.ScheduleManager.Repositories
         private List<LessonModel> ReadFromFile(string groupName)
         {
             if (!File.Exists(LocalBackupFileName(groupName)))
+            {
                 return new List<LessonModel>();
+            }
 
-            var fileData = File.ReadAllText(LocalBackupFileName(groupName));
+            string fileData = File.ReadAllText(LocalBackupFileName(groupName));
             return JsonConvert.DeserializeObject<List<LessonModel>>(fileData);
         }
     }

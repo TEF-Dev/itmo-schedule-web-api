@@ -1,4 +1,4 @@
-﻿using IfmoSchedule.ScheduleManager.Services;
+﻿using LittleCat.ScheduleManager.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IfmoSchedule.Test

@@ -1,7 +1,7 @@
 ﻿using System;
-using IfmoSchedule.ScheduleManager.Services;
 using LittleCat.ScheduleManager.Models;
 using LittleCat.ScheduleManager.Repositories;
+using LittleCat.ScheduleManager.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IfmoSchedule.Controllers
@@ -41,26 +41,29 @@ namespace IfmoSchedule.Controllers
         {
             if (group == null || week == null || day == null)
             {
-                BadRequest("Messing argument");
+                return BadRequest($"Messing argument " + group
+                                                          ?? day.ToString()
+                                                          ?? week.ToString()
+                                                          ?? throw new Exception());
             }
 
-            if (week > 2 || week < 1)
-                return BadRequest("Week incorrect. 2 код нечетной и 1 четной");
+            if (week != 2 && week != 1)
+                return BadRequest(AnswerGeneratorService.WeekTypeException());
     
             try
             {
-                return Ok(MessageGeneratorService.CreateDailyMessage(group, (WeekType)week, (int)day));
+                return Ok(MessageGeneratorService.CreateDailyMessage(group, (WeekType)week, day.Value));
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
         }
 
         [HttpGet("update/{group}")]
         public void UpdateLocalData(string group)
         {
+            throw new NotImplementedException();
             var localStorage = new LocalStorageRepository();
             localStorage.Update(group, ServerApiRepository.GetLessonList(group));
         }

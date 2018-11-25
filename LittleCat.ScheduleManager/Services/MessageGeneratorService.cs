@@ -1,43 +1,41 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LittleCat.ScheduleManager.Models;
 using LittleCat.ScheduleManager.Repositories;
-using LittleCat.ScheduleManager.Services;
 
-namespace IfmoSchedule.ScheduleManager.Services
+namespace LittleCat.ScheduleManager.Services
 {
     public static class MessageGeneratorService
     {
         public static string NextDaySchedule(string groupName)
         {
-            var nextDay = DateTime.UtcNow.AddDays(1);
-            var date = DataTimeConverter.GetDayAndWeek(nextDay);
-            return CreateDailyMessage(groupName, date.Week, date.Day);
+            DateTime nextDay = DateTime.UtcNow.AddDays(1);
+            (int day, WeekType week) = DataTimeConverter.GetDayAndWeek(nextDay);
+            return CreateDailyMessage(groupName, week, day);
         }
 
         public static string TodaySchedule(string groupName)
         {
-            var date = DataTimeConverter.GetDayAndWeek(DateTime.UtcNow);
-            return CreateDailyMessage(groupName, date.Week, date.Day);
+            (int day, WeekType week) = DataTimeConverter.GetDayAndWeek(DateTime.UtcNow);
+            return CreateDailyMessage(groupName, week, day);
         }
 
         public static string CreateDailyMessage(string groupName, WeekType week, int day)
         {
             var localRepo = new LocalStorageRepository();
-            var isuSchedule = ServerApiRepository.GetLessonList(groupName, day, week);
-            var localSchedule = localRepo.GetLessonList(groupName, day, week);
-            var header = AnswerGeneratorService.GenerateHeader(week, day);
+            List<LessonModel> localSchedule = localRepo.GetLessonList(groupName, day, week);
+            List<LessonModel> isuSchedule = ServerApiRepository.GetLessonList(groupName, day, week);
+            string header = AnswerGeneratorService.GenerateHeader(week, day);
 
+            return header += string.Join("\n", isuSchedule.Select(AnswerGeneratorService.LessonToString));
+            //TODO: fix this
             if (isuSchedule == null)
             {
                 //TODO: isu empty
                 if (localSchedule == null)
                 {
                     //TODO: isu and local empty
-                }
-                else
-                {
-                    //TODO: return local schedule
                 }
             }
             else
@@ -52,14 +50,13 @@ namespace IfmoSchedule.ScheduleManager.Services
                     {
                         return header + AnswerGeneratorService.DifferentSchedule(isuSchedule, localSchedule);
                     }
-                    else if (!isuSchedule.Any())
+
+                    if (!isuSchedule.Any())
                     {
                         return header += AnswerGeneratorService.NoLessonMessage();
                     }
-                    else
-                    {
-                        return header += string.Join("\n", isuSchedule.Select(AnswerGeneratorService.LessonToString));
-                    }
+
+                    return header += string.Join("\n", isuSchedule.Select(AnswerGeneratorService.LessonToString));
                 }
             }
 

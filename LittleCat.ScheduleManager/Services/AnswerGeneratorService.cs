@@ -9,17 +9,13 @@ namespace LittleCat.ScheduleManager.Services
     {
         public static string GenerateHeader(WeekType targetWeekType, int targetDay)
         {
-            var week = targetWeekType != WeekType.Odd ? "чётная" : "нечётная";
-            var greeting = "🔑 Расписание на завтра!\n 👀 Нас ждёт ";
-            greeting += $"{GetDayName(targetDay)}, {week} неделя \n";
-            return greeting;
+            return "🔑 Расписание на завтра!\n 👀 Нас ждёт "
+                   + $"{GetDayName(targetDay)}, {targetWeekType.MakeString()} неделя \n";
         }
 
         public static string LessonToString(LessonModel lesson)
         {
-            var room = lesson.Title == "Иностранный язык" ? "" : $"ауд. {lesson.Room} ";
-            var s = $"📌 {lesson.TimeBegin} -> {lesson.Title} ({lesson.Status}), {room}{lesson.Place}";
-            return s;
+            return $"📌 {lesson.TimeBegin} -> {lesson.Title} ({lesson.Status}), {lesson?.Room ?? " "}{lesson.Place}";
         }
 
         public static string NoLessonMessage()
@@ -31,8 +27,8 @@ namespace LittleCat.ScheduleManager.Services
         {
             throw new NotImplementedException();
             return "❌ ИСУ вернула расписание, отличное от локального\n"
-                   + "С ИСУ:\n" + string.Join("\n", isuSchedule.Select(AnswerGeneratorService.LessonToString))
-                   + "\nЛокально:\n" + string.Join("\n", localSchedule.Select(AnswerGeneratorService.LessonToString));
+                   + "С ИСУ:\n" + string.Join("\n", isuSchedule.Select(LessonToString))
+                   + "\nЛокально:\n" + string.Join("\n", localSchedule.Select(LessonToString));
         }
 
         private static string GetDayName(int day)
@@ -56,6 +52,11 @@ namespace LittleCat.ScheduleManager.Services
             }
 
             throw new ArgumentException(day.ToString());
+        }
+
+        public static string WeekTypeException()
+        {
+            return "Week incorrect. 2 код нечетной и 1 четной";
         }
     }
 }
