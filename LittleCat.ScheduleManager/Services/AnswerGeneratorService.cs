@@ -26,9 +26,11 @@ namespace LittleCat.ScheduleManager.Services
         public static string DifferentSchedule(List<LessonModel> isuSchedule, List<LessonModel> localSchedule)
         {
             throw new NotImplementedException();
+/*
             return "❌ ИСУ вернула расписание, отличное от локального\n"
                    + "С ИСУ:\n" + string.Join("\n", isuSchedule.Select(LessonToString))
                    + "\nЛокально:\n" + string.Join("\n", localSchedule.Select(LessonToString));
+*/
         }
 
         private static string GetDayName(int day)

@@ -3,50 +3,56 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using LittleCat.ScheduleManager.Models;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace LittleCat.ScheduleManager.Repositories
 {
-    public class LocalStorageRepository
+    public static class LocalStorageRepository
     {
-        private string LocalBackupFileName(string groupName)
+        private static DbContextOptions<LocalDatabaseContext> _options;
+        static LocalStorageRepository()
         {
-            return $"LocalBackup{groupName}.json";
+            _options =
+                new DbContextOptionsBuilder<LocalDatabaseContext>()
+                    .UseInMemoryDatabase("DatabaseTestName")
+                    .Options;
         }
+        
 
-        public List<LessonModel> GetLessonList(string groupName)
+        public static List<LessonModel> GetLessonList(string groupName)
         {
-            return ReadFromFile(groupName);
-        }
-
-        public List<LessonModel> GetLessonList(string groupName, int day, WeekType weekType)
-        {
-            try
+            using (var context = new LocalDatabaseContext(_options))
             {
-                return ReadFromFile(groupName)
-                    .Where(l => l.DayOfWeek == day && l.WeekType.Compare(weekType))
-                    .ToList();
-            }
-            catch (Exception)
-            {
-                return new List<LessonModel>();
+                string jsonData = context
+                    .ScheduleDbRecords
+                    .FirstOrDefault(r => r.GroupName == groupName)
+                    ?.JsonScheduleData;
+                if (jsonData == null)
+                    return null;
+                return JsonConvert.DeserializeObject<List<LessonModel>>(jsonData);
             }
         }
 
-        public void Update(string groupName, List<LessonModel> lessons)
+        public static List<LessonModel> GetLessonList(string groupName, int day, WeekType weekType)
         {
-            File.WriteAllText(LocalBackupFileName(groupName), JsonConvert.SerializeObject(lessons));
+            return GetLessonList(groupName)
+                ?.Where(l => l.DayOfWeek == day && l.WeekType.Compare(weekType))
+                ?.ToList();
         }
 
-        private List<LessonModel> ReadFromFile(string groupName)
+        public static void Update(string groupName, List<LessonModel> lessons)
         {
-            if (!File.Exists(LocalBackupFileName(groupName)))
+            using (var context = new LocalDatabaseContext(_options))
             {
-                return new List<LessonModel>();
+                var entity = new ScheduleDbRecord
+                {
+                    GroupName = groupName,
+                    JsonScheduleData = JsonConvert.SerializeObject(lessons)
+                };
+                context.ScheduleDbRecords.Update(entity);
+                context.SaveChanges();
             }
-
-            string fileData = File.ReadAllText(LocalBackupFileName(groupName));
-            return JsonConvert.DeserializeObject<List<LessonModel>>(fileData);
         }
     }
 }

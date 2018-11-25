@@ -23,13 +23,13 @@ namespace LittleCat.ScheduleManager.Services
 
         public static string CreateDailyMessage(string groupName, WeekType week, int day)
         {
-            var localRepo = new LocalStorageRepository();
-            List<LessonModel> localSchedule = localRepo.GetLessonList(groupName, day, week);
+            List<LessonModel> localSchedule = LocalStorageRepository.GetLessonList(groupName, day, week);
             List<LessonModel> isuSchedule = ServerApiRepository.GetLessonList(groupName, day, week);
             string header = AnswerGeneratorService.GenerateHeader(week, day);
 
             return header += string.Join("\n", isuSchedule.Select(AnswerGeneratorService.LessonToString));
             //TODO: fix this
+/*
             if (isuSchedule == null)
             {
                 //TODO: isu empty
@@ -61,6 +61,7 @@ namespace LittleCat.ScheduleManager.Services
             }
 
             return header;
+*/
         }
     }
 }

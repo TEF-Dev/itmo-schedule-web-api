@@ -37,14 +37,15 @@ namespace IfmoSchedule.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetWithParams([FromRoute]string group, [FromRoute]int? week, [FromRoute]int? day)
+        public ActionResult GetWithParams([FromQuery]string group, [FromQuery]int? week, [FromQuery]int? day)
         {
             if (group == null || week == null || day == null)
             {
-                return BadRequest($"Messing argument " + group
-                                                          ?? day.ToString()
-                                                          ?? week.ToString()
-                                                          ?? throw new Exception());
+                var answer = "Messing argument:";
+                if (group == null) answer += $" {nameof(group)}";
+                if (day == null) answer += $" {nameof(day)}";
+                if (week == null) answer += $" {nameof(week)}";
+                return BadRequest(answer);
             }
 
             if (week != 2 && week != 1)
@@ -64,8 +65,9 @@ namespace IfmoSchedule.Controllers
         public void UpdateLocalData(string group)
         {
             throw new NotImplementedException();
-            var localStorage = new LocalStorageRepository();
-            localStorage.Update(group, ServerApiRepository.GetLessonList(group));
+/*
+            LocalStorageRepository.Update(group, ServerApiRepository.GetLessonList(group));
+*/
         }
     }
 }
