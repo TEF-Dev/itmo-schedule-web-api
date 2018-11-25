@@ -1,7 +1,8 @@
 ﻿using System;
-using IfmoSchedule.ScheduleManager.Services;
-using IfmoSchedule.Tools;
+using LittleCat.ScheduleManager.Services;
 using Microsoft.AspNetCore.Mvc;
+using VkLibrary.Core;
+using VkLibrary.Core.Auth;
 
 namespace IfmoSchedule.Controllers
 {
@@ -9,14 +10,23 @@ namespace IfmoSchedule.Controllers
     [Route("api/VkSender")]
     public class VkSenderController : Controller
     {
-        [HttpGet("{group}")]
-        public ActionResult SendBotMessage(string group)
+        [HttpGet]
+        public ActionResult SendBotMessage([FromQuery]string group, [FromQuery]string token, [FromQuery]int? chatId)
         {
-            if (group != "M3305")
-                throw new NotImplementedException();
-
-            var msg = MessageGeneratorService.NextDaySchedule("M3305");
-            return Ok(VkSender.Send(msg));
+            string msg = MessageGeneratorService.NextDaySchedule(group);
+            var vk = new Vkontakte(6721124, apiVersion: "5.80")
+            {
+                AccessToken = AccessToken.FromString(token)
+            };
+            try
+            {
+                int? result = vk.Messages.Send(peerId: chatId, message: msg).Result;
+                return Ok($"Result: {result}");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

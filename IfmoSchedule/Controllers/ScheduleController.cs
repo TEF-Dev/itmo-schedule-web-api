@@ -1,7 +1,6 @@
 ﻿using System;
-using IfmoSchedule.ScheduleManager.Models;
-using IfmoSchedule.ScheduleManager.Repositories;
-using IfmoSchedule.ScheduleManager.Services;
+using LittleCat.ScheduleManager.Models;
+using LittleCat.ScheduleManager.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IfmoSchedule.Controllers
@@ -37,33 +36,37 @@ namespace IfmoSchedule.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetWithParams([FromRoute]string group, [FromRoute]int? week, [FromRoute]int? day)
+        public ActionResult GetWithParams([FromQuery]string group, [FromQuery]int? week, [FromQuery]int? day)
         {
             if (group == null || week == null || day == null)
             {
-                BadRequest("Messing argument");
+                var answer = "Messing argument:";
+                if (group == null) answer += $" {nameof(group)}";
+                if (day == null) answer += $" {nameof(day)}";
+                if (week == null) answer += $" {nameof(week)}";
+                return BadRequest(answer);
             }
 
-            if (week > 2 || week < 1)
-                return BadRequest("Week incorrect. 2 код нечетной и 1 четной");
-
+            if (week != 2 && week != 1)
+                return BadRequest(AnswerGeneratorService.WeekTypeException());
+    
             try
             {
-                return Ok(MessageGeneratorService.CreateDailyMessage(group, (WeekType)week, (int)day));
+                return Ok(MessageGeneratorService.CreateDailyMessage(group, (WeekType)week, day.Value));
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
         }
 
         [HttpGet("update/{group}")]
         public void UpdateLocalData(string group)
         {
-            var localStorage = new LocalStorageRepository();
-            var storage = new ServerStorageRepository();
-            localStorage.Update(group, storage.GetLessonList(group));
+            throw new NotImplementedException();
+/*
+            LocalStorageRepository.Update(group, ServerApiRepository.GetLessonList(group));
+*/
         }
     }
 }
