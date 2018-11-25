@@ -1,6 +1,5 @@
 ﻿using System;
 using LittleCat.ScheduleManager.Models;
-using LittleCat.ScheduleManager.Repositories;
 using LittleCat.ScheduleManager.Services;
 using Microsoft.AspNetCore.Mvc;
 
