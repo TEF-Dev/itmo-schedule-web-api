@@ -18,18 +18,18 @@ namespace IfmoSchedule.Test
         [DataRow("M3309")]
         public void ModelPropertyTest(string group)
         {
-            List<LessonModel> list = ServerApiRepository.GetLessonList(group);
+            var list = ServerApiRepository.GetLessonList(group);
             Assert.IsNotNull(list);
-            LessonModel data = list.First();
+            var data = list.First();
 
-            Assert.IsNotNull(data.DayOfWeek);
+            Assert.IsNotNull(data.DataDay);
             Assert.IsNotNull(data.Place);
             //Assert.IsNotNull(data.Room);
             Assert.IsNotNull(data.Status);
             //Assert.IsNotNull(data.Teacher);
-            Assert.IsNotNull(data.TimeBegin);
-            Assert.IsNotNull(data.Title);
-            Assert.IsNotNull(data.WeekType);
+            Assert.IsNotNull(data.StartTime);
+            Assert.IsNotNull(data.SubjectTitle);
+            Assert.IsNotNull(data.DataWeek);
         }
 
         [TestMethod]

@@ -1,30 +1,17 @@
 ﻿using System;
+using ItmoScheduleApiWrapper.Types;
 
 namespace LittleCat.ScheduleManager.Models
 {
-    public enum WeekType
-    {
-        All = 0,
-        Even = 1,
-        Odd = 2,
-    }
-
     public static class WeekTypeExtensions
     {
-        public static bool Compare(this WeekType first, WeekType other)
-        {
-            if (first == WeekType.All || other == WeekType.All)
-                return true;
-            return (first == other);
-        }
-
-        public static string MakeString(this WeekType week)
+        public static string MakeString(this DataWeekType week)
         {
             switch (week)
             {
-                case WeekType.Even:
+                case DataWeekType.Even:
                     return "чётная";
-                case WeekType.Odd:
+                case DataWeekType.Odd:
                     return "нечётная";  
                 default:
                     throw new ArgumentOutOfRangeException(nameof(week), week, null);

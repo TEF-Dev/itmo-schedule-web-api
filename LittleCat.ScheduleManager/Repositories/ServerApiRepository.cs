@@ -1,43 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using LittleCat.ScheduleManager.Models;
-using Newtonsoft.Json.Linq;
+using ItmoScheduleApiWrapper;
+using ItmoScheduleApiWrapper.Helpers;
+using ItmoScheduleApiWrapper.Models;
+using ItmoScheduleApiWrapper.Types;
 
 namespace LittleCat.ScheduleManager.Repositories
 {
     public static class ServerApiRepository
     {
-        private const string BaseUrl = "http://mountain.ifmo.ru/api.ifmo.ru/public/v1/schedule_lesson_group/";
+        private static ItmoApiProvider _apiProvider = new ItmoApiProvider();
 
-        public static List<LessonModel> GetLessonList(string groupName, int day, WeekType weekType)
+        public static List<ScheduleItemModel> GetLessonList(string groupName, DataDayType day, DataWeekType weekType)
         {
-            List<LessonModel> lessons = GetLessonList(groupName);
+            List<ScheduleItemModel> lessons = GetLessonList(groupName);
 
             return lessons
-                ?.Where(l => l.WeekType.Compare(weekType) && l.DayOfWeek == day)
+                ?.Where(l => l.DataWeek.Compare(weekType) && l.DataDay == day)
                 .ToList();
         }
 
-        public static List<LessonModel> GetLessonList(string groupName)
+        public static List<ScheduleItemModel> GetLessonList(string groupName)
         {
-            string address = $"{BaseUrl}{groupName}";
-
-            //TODO: check timeout
-            var client = new HttpClient {Timeout = TimeSpan.FromSeconds(10)};
-            try
-            {
-                HttpResponseMessage httpResponseMessage = client.GetAsync(address).Result;
-                string jsonString = httpResponseMessage.Content.ReadAsStringAsync().Result;
-                JObject lessonsObject = JObject.Parse(jsonString);
-
-                return lessonsObject["schedule"].ToObject<List<LessonModel>>();
-            }
-            catch (Exception)
-            {
-                return new List<LessonModel>();
-            }
+            //TODO: timeout
+            var result = _apiProvider.ScheduleApi.GetGroupSchedule(groupName);
+            result.Wait();
+            return result.IsFaulted
+                ? new List<ScheduleItemModel>()
+                : result.Result.Schedule;
         }
     }
 }

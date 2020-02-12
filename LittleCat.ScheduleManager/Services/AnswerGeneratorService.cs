@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ItmoScheduleApiWrapper.Types;
 using LittleCat.ScheduleManager.Models;
 
 namespace LittleCat.ScheduleManager.Services
 {
     public static class AnswerGeneratorService
     {
-        public static string GenerateHeader(WeekType targetWeekType, int targetDay)
+        public static string GenerateHeader(DataWeekType targetWeekType, int targetDay)
         {
             return "🔑 Расписание на завтра!\n 👀 Нас ждёт "
                    + $"{GetDayName(targetDay)}, {targetWeekType.MakeString()} неделя \n";

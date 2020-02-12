@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using ItmoScheduleApiWrapper.Helpers;
+using ItmoScheduleApiWrapper.Types;
 using Newtonsoft.Json;
 
 namespace LittleCat.ScheduleManager.Models
@@ -9,7 +11,7 @@ namespace LittleCat.ScheduleManager.Models
 
         [JsonProperty("data_day")] public int? DayOfWeek { get; set; }
         [JsonProperty("status")] public string Status { get; set; }
-        [JsonProperty("data_week")] public WeekType WeekType { get; set; }
+        [JsonProperty("data_week")] public DataWeekType WeekType { get; set; }
         [JsonProperty("subj_time")] public string FullTime { get; set; }
         [JsonProperty("room")] public string Room { get; set; }
         [JsonProperty("title")] public string Title { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ItmoScheduleApiWrapper.Types;
 using LittleCat.ScheduleManager.Models;
 using LittleCat.ScheduleManager.Repositories;
 
@@ -11,23 +12,26 @@ namespace LittleCat.ScheduleManager.Services
         public static string NextDaySchedule(string groupName)
         {
             DateTime nextDay = DateTime.UtcNow.AddDays(1);
-            (int day, WeekType week) = DataTimeConverter.GetDayAndWeek(nextDay);
+            (int day, DataWeekType week) = DataTimeConverter.GetDayAndWeek(nextDay);
             return CreateDailyMessage(groupName, week, day);
         }
 
         public static string TodaySchedule(string groupName)
         {
-            (int day, WeekType week) = DataTimeConverter.GetDayAndWeek(DateTime.UtcNow);
+            (int day, DataWeekType week) = DataTimeConverter.GetDayAndWeek(DateTime.UtcNow);
             return CreateDailyMessage(groupName, week, day);
         }
 
-        public static string CreateDailyMessage(string groupName, WeekType week, int day)
+        public static string CreateDailyMessage(string groupName, DataWeekType week, int day)
         {
             List<LessonModel> localSchedule = LocalStorageRepository.GetLessonList(groupName, day, week);
-            List<LessonModel> isuSchedule = ServerApiRepository.GetLessonList(groupName, day, week);
+            var isuSchedule = ServerApiRepository.GetLessonList(groupName, (DataDayType)day, week);
             string header = AnswerGeneratorService.GenerateHeader(week, day);
 
-            return header += string.Join("\n", isuSchedule.Select(AnswerGeneratorService.LessonToString));
+            return header;
+            //TODO: fix
+            //return header += string.Join("\n", isuSchedule.Select(AnswerGeneratorService.LessonToString));
+            
             //TODO: fix this
 /*
             if (isuSchedule == null)

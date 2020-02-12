@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
+using ItmoScheduleApiWrapper.Helpers;
+using ItmoScheduleApiWrapper.Types;
 using LittleCat.ScheduleManager.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -34,7 +34,7 @@ namespace LittleCat.ScheduleManager.Repositories
             }
         }
 
-        public static List<LessonModel> GetLessonList(string groupName, int day, WeekType weekType)
+        public static List<LessonModel> GetLessonList(string groupName, int day, DataWeekType weekType)
         {
             return GetLessonList(groupName)
                 ?.Where(l => l.DayOfWeek == day && l.WeekType.Compare(weekType))
