@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ItmoScheduleApiWrapper.Models;
 using ItmoScheduleApiWrapper.Types;
 using LittleCat.ScheduleManager.Models;
 using LittleCat.ScheduleManager.Repositories;
@@ -24,7 +25,7 @@ namespace LittleCat.ScheduleManager.Services
 
         public static string CreateDailyMessage(string groupName, DataWeekType week, int day)
         {
-            List<LessonModel> localSchedule = LocalStorageRepository.GetLessonList(groupName, day, week);
+            //List<ScheduleItemModel> localSchedule = LocalStorageRepository.GetLessonList(groupName, day, week);
             var isuSchedule = ServerApiRepository.GetLessonList(groupName, (DataDayType)day, week);
             string header = AnswerGeneratorService.GenerateHeader(week, day);
 

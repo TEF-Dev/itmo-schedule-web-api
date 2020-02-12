@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ItmoScheduleApiWrapper.Models;
 using ItmoScheduleApiWrapper.Types;
 using LittleCat.ScheduleManager.Models;
 
@@ -14,9 +15,9 @@ namespace LittleCat.ScheduleManager.Services
                    + $"{GetDayName(targetDay)}, {targetWeekType.MakeString()} неделя \n";
         }
 
-        public static string LessonToString(LessonModel lesson)
+        public static string LessonToString(ScheduleItemModel lesson)
         {
-            return $"📌 {lesson.TimeBegin} -> {lesson.Title} ({lesson.Status}), {lesson?.Room ?? " "}{lesson.Place}";
+            return $"📌 {lesson.StartTime} -> {lesson.SubjectTitle} ({lesson.Status}), {lesson?.Room ?? " "}{lesson.Place}";
         }
 
         public static string NoLessonMessage()
@@ -24,7 +25,7 @@ namespace LittleCat.ScheduleManager.Services
             return "🔮 Пар не будет, ура!";
         }
 
-        public static string DifferentSchedule(List<LessonModel> isuSchedule, List<LessonModel> localSchedule)
+        public static string DifferentSchedule(List<ScheduleItemModel> isuSchedule, List<ScheduleItemModel> localSchedule)
         {
             throw new NotImplementedException();
 /*
