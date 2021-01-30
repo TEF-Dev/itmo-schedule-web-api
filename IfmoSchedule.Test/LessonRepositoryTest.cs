@@ -1,6 +1,5 @@
-using System.Collections.Generic;
 using System.Linq;
-using LittleCat.ScheduleManager.Models;
+using ItmoScheduleApiWrapper.Types;
 using LittleCat.ScheduleManager.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,30 +12,30 @@ namespace IfmoSchedule.Test
         [TestMethod]
         public void LessonList_NotNull()
         {
-            List<LessonModel> lessons = ServerApiRepository.GetLessonList(GroupName);
+            var lessons = ServerApiRepository.GetLessonList(GroupName);
             Assert.IsNotNull(lessons);
         }
 
         [TestMethod]
         public void LessonList_NotEmpty()
         {
-            List<LessonModel> lessons = ServerApiRepository.GetLessonList(GroupName);
+            var lessons = ServerApiRepository.GetLessonList(GroupName);
             Assert.IsTrue(lessons.Any());
         }
 
         [TestMethod]
         public void DayLessonList_NotEmpty()
         {
-            List<LessonModel> lessons = ServerApiRepository.GetLessonList(GroupName, 1, WeekType.All);
+            var lessons = ServerApiRepository.GetLessonList(GroupName, DataDayType.Monday, DataWeekType.Both);
             Assert.IsTrue(lessons.Any());
         }
 
-        [DataRow(1, WeekType.Even, 3)]
-        [DataRow(1, WeekType.Odd, 2)]
+        [DataRow(1, DataWeekType.Even, 3)]
+        [DataRow(1, DataWeekType.Odd, 2)]
         [DataTestMethod]
-        public void MondayLessonList(int day, WeekType weekType, int count)
+        public void MondayLessonList(int day, DataWeekType weekType, int count)
         {
-            List<LessonModel> lessons = ServerApiRepository.GetLessonList(GroupName, day, weekType);
+            var lessons = ServerApiRepository.GetLessonList(GroupName, (DataDayType)day, weekType);
             Assert.AreEqual(lessons.Count, count);
         }
     }

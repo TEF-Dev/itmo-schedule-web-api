@@ -1,5 +1,5 @@
 ﻿using System;
-using LittleCat.ScheduleManager.Models;
+using ItmoScheduleApiWrapper.Types;
 using LittleCat.ScheduleManager.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,7 +52,7 @@ namespace IfmoSchedule.Controllers
     
             try
             {
-                return Ok(MessageGeneratorService.CreateDailyMessage(group, (WeekType)week, day.Value));
+                return Ok(MessageGeneratorService.CreateDailyMessage(group, (DataWeekType)week, day.Value));
             }
             catch (Exception ex)
             {
