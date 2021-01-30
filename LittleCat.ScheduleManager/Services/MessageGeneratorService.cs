@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ItmoScheduleApiWrapper.Models;
 using ItmoScheduleApiWrapper.Types;
-using LittleCat.ScheduleManager.Models;
 using LittleCat.ScheduleManager.Repositories;
 
 namespace LittleCat.ScheduleManager.Services

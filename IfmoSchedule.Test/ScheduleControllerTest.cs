@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using IfmoSchedule.Controllers;
-using LittleCat.ScheduleManager.Services;
+﻿using LittleCat.ScheduleManager.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IfmoSchedule.Test

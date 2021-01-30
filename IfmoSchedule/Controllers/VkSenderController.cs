@@ -1,8 +1,8 @@
 ﻿using System;
 using LittleCat.ScheduleManager.Services;
 using Microsoft.AspNetCore.Mvc;
-using VkLibrary.Core;
-using VkLibrary.Core.Auth;
+using VkApi.Wrapper;
+using VkApi.Wrapper.Auth;
 
 namespace IfmoSchedule.Controllers
 {

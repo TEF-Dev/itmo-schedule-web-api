@@ -1,7 +1,6 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using ItmoScheduleApiWrapper;
-using ItmoScheduleApiWrapper.Helpers;
 using ItmoScheduleApiWrapper.Models;
 using ItmoScheduleApiWrapper.Types;
 

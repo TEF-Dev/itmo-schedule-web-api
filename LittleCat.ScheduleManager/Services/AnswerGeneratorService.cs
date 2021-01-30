@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using ItmoScheduleApiWrapper.Models;
 using ItmoScheduleApiWrapper.Types;
 using LittleCat.ScheduleManager.Models;
@@ -17,7 +16,7 @@ namespace LittleCat.ScheduleManager.Services
 
         public static string LessonToString(ScheduleItemModel lesson)
         {
-            return $"📌 {lesson.StartTime} -> {lesson.SubjectTitle} ({lesson.Status}), {lesson?.Room ?? " "}{lesson.Place}";
+            return $"📌 {lesson.StartTime} -> {lesson.SubjectTitle} ({lesson.Status}), {lesson.Room ?? " "}{lesson.Place}";
         }
 
         public static string NoLessonMessage()

@@ -1,6 +1,5 @@
 ﻿using System;
 using ItmoScheduleApiWrapper.Types;
-using LittleCat.ScheduleManager.Models;
 using LittleCat.ScheduleManager.Services;
 using Microsoft.AspNetCore.Mvc;
 
