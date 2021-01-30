@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using ItmoScheduleApiWrapper;
 using ItmoScheduleApiWrapper.Helpers;
@@ -23,7 +23,7 @@ namespace LittleCat.ScheduleManager.Repositories
         public static List<ScheduleItemModel> GetLessonList(string groupName)
         {
             //TODO: timeout
-            var result = _apiProvider.ScheduleApi.GetGroupSchedule(groupName);
+            var result = _apiProvider.ScheduleApi.GetGroupScheduleAsync(groupName);
             result.Wait();
             return result.IsFaulted
                 ? new List<ScheduleItemModel>()
